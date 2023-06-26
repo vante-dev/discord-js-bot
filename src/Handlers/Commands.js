@@ -61,7 +61,7 @@ module.exports = {
 
             if (Date.now() < cooldownExpiration) {
                 const remainingTime = (cooldownExpiration - Date.now()) / 1000;
-                client.embed(message, message.translate("misc:COOLDOWN", { TIME: await toDiscordTimestamp(cooldowned) }), cmd.Cooldown * 1000);
+                client.embed(message, message.translate("misc:COOLDOWNED", { TIME: await toDiscordTimestamp(cooldowned) }), cmd.Cooldown * 1000);
                 client.cooldowned.set(`${cmd}-${message.author.id}`, Date.now());
                 setTimeout(() => { client.cooldowned.delete(`${cmd}-${message.author.id}`); }, cmd.Cooldown * 1000);
                 return;
