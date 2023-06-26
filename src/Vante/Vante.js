@@ -138,7 +138,6 @@ class VanteClient extends Client {
       const Contexts = await VanteLoader("src/contexts");
       for (const file of Contexts) {
         try {
-          console.log(file)
           const ctx = require(file);
           if (typeof ctx !== "object") continue;
           validateContext(ctx);
