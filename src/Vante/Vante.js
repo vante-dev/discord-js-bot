@@ -1,4 +1,4 @@
-const { Client, Collection, GatewayIntentBits, Partials, WebhookClient, ApplicationCommandType, EmbedBuilder } = require("discord.js");
+const { Client, Collection, GatewayIntentBits, Partials, WebhookClient, ApplicationCommandType, EmbedBuilder, ActivityType } = require("discord.js");
 const { VanteLoader } = require("vante.ai"), Guild = require("@schemas/Guild");
 const { validateCommand, validateContext } = require("@helpers/Validator");
 
@@ -183,6 +183,39 @@ class VanteClient extends Client {
               this.Tables.push(["Context", this.contextcommands.size]);
               this.logger.log("―――――――――――――――――――――――――――――――――――――――――――――――――")
           };
+          const getType = (type) => {
+            switch (type) {
+              case "COMPETING":
+                return ActivityType.Competing;
+        
+              case "LISTENING":
+                return ActivityType.Listening;
+        
+              case "PLAYING":
+                return ActivityType.Playing;
+        
+              case "WATCHING":
+                return ActivityType.Watching;
+
+              case "STREAMING":
+                return ActivityType.Streaming;
+            }
+          };
+
+          setInterval(async () => {
+            client.user.setPresence({
+              status: client.system.Functions.Presence.Status,
+              activities: [
+                {
+                  name: client.system.Functions.Presence.Message[Math.floor(Math.random() * client.system.Functions.Presence.Message.length)],
+                  type: getType(client.system.Functions.Presence.Type),
+                  url: "https://www.twitch.tv/vantexsrd"
+                },
+              ],
+            });
+          }, 10000);
+
+
         });
       });
     };

@@ -30,7 +30,7 @@ module.exports = {
 
     Client: {
         Token: "",
-        Language: "",
+        Language: "en-US",
         Prefix: []
     },
 }

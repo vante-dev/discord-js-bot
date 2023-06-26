@@ -20,7 +20,7 @@
         "moment": "^2.29.4",
         "mongoose": "^7.3.1",
         "string-similarity": "^4.0.4",
-        "vante.ai": "^1.0.0"
+        "vante.ai": "^2.0.0"
     },
     "devDependencies": {
         "nodemon": "^2.0.22"
