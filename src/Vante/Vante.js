@@ -49,7 +49,7 @@ class VanteClient extends Client {
     };
 
     async embed(interaction, data, cooldown) {
-        const embed = new EmbedBuilder().setColor("RANDOM").setDescription(`>>> ${data.substring(0, 3000)}`);
+        const embed = new EmbedBuilder().setColor("Random").setDescription(`>>> ${data.substring(0, 3000)}`);
         if(!cooldown) {
           if (interaction.deferred) {
             interaction.followUp({ embeds: [embed], ephemeral: true }).then(x => {
