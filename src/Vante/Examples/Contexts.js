@@ -4,9 +4,14 @@ module.exports = {
     Name: "",
     Description: "",
     Type: ApplicationCommandType,
-    UserPermissions: [],
+    Cooldown: 0,
     Enabled: false,
     Ephemeral: false,
+
+    Authory: {
+        Client: [],
+        User: [],
+    },
 
     async run(client, interaction) {
 
