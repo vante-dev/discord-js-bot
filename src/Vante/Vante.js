@@ -141,9 +141,10 @@ class VanteClient extends Client {
           const ctx = require(file);
           if (typeof ctx !== "object") continue;
           validateContext(ctx);
-          if (!ctx.Enabled) return;
-          if (this.contextcommands.has(ctx.Name)) throw new Error(`Context already exists with that name`);
-          this.contextcommands.set(ctx.Name, ctx);
+          if (ctx.Enabled) {
+            if (this.contextcommands.has(ctx.Name)) throw new Error(`Context already exists with that name`);
+            this.contextcommands.set(ctx.Name, ctx);
+          }
         } catch (ex) {
           this.logger.error(`Failed to load ${file} Reason: ${ex.message}`);
         }
