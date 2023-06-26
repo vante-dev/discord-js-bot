@@ -1,5 +1,5 @@
 const config = require("@root/System"), { EmbedBuilder, WebhookClient } = require("discord.js"), { green, cyan, yellow, red } = require("chalk"), moment = require('moment');
-const VanteCheck = "✓", VanteMark = "𐄂", VanteWarn = "⚠", cliSpinners = require('cli-spinners'), webhookLogger = config.Functions.Webhook.System ? new WebhookClient({ url: config.Functions.Webhook.System }) : undefined;
+const VanteCheck = "✓", VanteMark = "𐄂", VanteWarn = "⚠", cliSpinners = require('cli-spinners'), webhookLogger = config.Functions.Webhook.Logger && config.Functions.Webhook.Systems ? new WebhookClient({ url: config.Functions.Webhook.Systems }) : undefined;
 const date = `[${moment().format("dd-mm - mm:ss")}]`;
 
 module.exports = class Logger {
@@ -25,10 +25,8 @@ module.exports = class Logger {
 
   static error(content, vante) {
     if (vante && vante.error) {
-      console.log(`${date}: ( ${red(VanteMark)} ) ${cyan(`${content}`)}`); 
+      console.log(`${date}: ( ${red(VanteMark)} ) ${cyan(`${content} - ${vante.error}`)}`); 
       if (webhookLogger) {
-        if (!content && !vante) return;
-
         if (vante.error) if (vante.error.length > 950) vante.error = vante.error.slice(0, 950) + '...';
         if (vante.error.stack) if (vante.error.stack.length > 950) vante.error.stack = vante.error.stack.slice(0, 950) + '...';
 
@@ -41,7 +39,7 @@ module.exports = class Logger {
         webhookLogger.send({ 
           username: vante.guild.name ? vante.guild.name : 'Discord Guild', 
           avatarURL: vante.guild.iconURL() ? vante.guild.iconURL() : "https://cdn.discordapp.com/embed/avatars/1.png", 
-          embeds: [embed] 
+          embeds: [VanteEmbed] 
         }).catch((ex) => {});
       };
     } else {
