@@ -21,7 +21,7 @@ module.exports = {
         const remainingTime = (cooldownExpiration - Date.now()) / 1000;
         client.embed(
           interaction,
-          interaction.guild.translate("misc:COOLDOWN", {
+          interaction.guild.translate("misc:COOLDOWNED", {
             TIME: await toDiscordTimestamp(cooldowned),
           }),
           context.Cooldown * 1000
