@@ -72,8 +72,8 @@ module.exports = class ErtununAnnesiCheckleBabba {
             throw new TypeError("Context must be an object");
         }
 
-        if (typeof context.Name !== "string" || context.Name !== context.Name.toLowerCase()) {
-            throw new Error("Context name must be a lowercase string.");
+        if (typeof context.Name !== "string") {
+            throw new Error("Context name must be a string.");
         }
 
         if (typeof context.Description !== "string") {
