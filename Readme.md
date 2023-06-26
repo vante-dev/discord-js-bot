@@ -57,6 +57,7 @@
 ```fix
 Start.bat
 
+you can find command & event example in ./src/Vante/Examples
 Leave the ( ServerID ) in ( System.js ) file blank if you want to register slash commands globally.
 ```
 ---
