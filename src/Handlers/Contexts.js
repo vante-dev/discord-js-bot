@@ -36,8 +36,8 @@ module.exports = {
 
     if (interaction.guild) {
       let neededPermissions = [];
-      if (cmd.Authory && cmd.Authory.Client) {
-        cmd.Authory.Client.forEach((perm) => {
+      if (context.Authory && context.Authory.Client) {
+        context.Authory.Client.forEach((perm) => {
           if (
             [
               PermissionsBitField.Flags.Speak,
@@ -80,8 +80,8 @@ module.exports = {
       }
 
       neededPermissions = [];
-      if (cmd.Authory && cmd.Authory.User) {
-        cmd.Authory.User.forEach((perm) => {
+      if (context.Authory && context.Authory.User) {
+        context.Authory.User.forEach((perm) => {
           if (!interaction.channel.permissionsFor(interaction.user).has(perm)) {
             neededPermissions.push(perm);
           }
@@ -124,7 +124,7 @@ module.exports = {
         client.cooldowns.set(`${context}-${interaction.user.id}`, Date.now());
       setTimeout(() => {
         client.cooldowns.delete(`${context}-${interaction.user.id}`);
-      }, cmd.Cooldown * 1000);
+      }, context.Cooldown * 1000);
       client.logger.log(
         `Command: ${context.Name} was ran by ${interaction.user.tag}${
           !interaction.guild
