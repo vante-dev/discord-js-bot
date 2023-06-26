@@ -7,7 +7,7 @@ module.exports = async (client, interaction) => {
     }
 
     if (interaction.isContextMenuCommand()) {
-        const context = client.contextMenus.get(interaction.commandName);
+        const context = client.contextcommands.get(interaction.commandName);
         if (context) await Command(client, interaction, context);
         else return client.embed(interaction, interaction.guild.translate("misc:ERROR_CMD")).catch(() => {});
     }
