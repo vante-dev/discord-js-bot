@@ -110,9 +110,9 @@ module.exports = {
 
     try {
       await interaction.deferReply({ ephemeral: context.Ephemeral });
-      await context.run(interaction);
+      await context.run(client, interaction);
     } catch (ex) {
-      await client.embed(interaction, client.translate("misc:ERR_OCCURRED"));
+      await client.embed(interaction, interaction.translate("misc:ERR_OCCURRED"));
       interaction.client.logger.error("contextRun", {
         error: ex,
         guild: interaction.guild,
