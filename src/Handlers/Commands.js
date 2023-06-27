@@ -2,7 +2,7 @@ const {PermissionsBitField} = require("discord.js"), { Owners } = require("@root
 
 module.exports = {
     Message: async function (client, message, command) {
-        const prefix = client.Vante.Commands.Prefix;
+        const prefix = client.Vante.Client.Prefix;
         const args = message.content.substring(prefix.some(x => x.length)).split(" ").splice(1);
         const cmd = command;
 
