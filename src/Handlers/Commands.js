@@ -7,7 +7,7 @@ module.exports = {
         const cmd = command;
 
         if (!message.channel.permissionsFor(message.guild.members.me).has("SendMessages")) return;
-        if (client.cooldowned.has(`${cmd}-${message.author.id}`)) return;
+        if (client.cooldowned.has(`${cmd.Name}-${message.author.id}`)) return;
 
         if (cmd.Category === "Root" && !Owners.includes(message.author.id)) {
             return client.embed(message, message.translate("misc:OWNER_ONLY"));
@@ -54,16 +54,16 @@ module.exports = {
             }
         }
 
-        if (client.cooldowns.has(`${cmd}-${message.author.id}`)) {
-            const lastTime = client.cooldowns.get(`${cmd}-${message.author.id}`);
+        if (client.cooldowns.has(`${cmd.Name}-${message.author.id}`)) {
+            const lastTime = client.cooldowns.get(`${cmd.Name}-${message.author.id}`);
             const cooldownExpiration = lastTime + cmd.Cooldown * 1000;
             const cooldowned = Date.now() + cmd.Cooldown * 1000
 
             if (Date.now() < cooldownExpiration) {
                 const remainingTime = (cooldownExpiration - Date.now()) / 1000;
                 client.embed(message, message.translate("misc:COOLDOWNED", { TIME: await toDiscordTimestamp(cooldowned) }), cmd.Cooldown * 1000);
-                client.cooldowned.set(`${cmd}-${message.author.id}`, Date.now());
-                setTimeout(() => { client.cooldowned.delete(`${cmd}-${message.author.id}`); }, cmd.Cooldown * 1000);
+                client.cooldowned.set(`${cmd.Name}-${message.author.id}`, Date.now());
+                setTimeout(() => { client.cooldowned.delete(`${cmd.Name}-${message.author.id}`); }, cmd.Cooldown * 1000);
                 return;
             }
         }
@@ -79,8 +79,8 @@ module.exports = {
             });
           } finally {
             client.commandsUsed++;
-            if (cmd.Cooldown > 0) client.cooldowns.set(`${cmd}-${message.author.id}`, Date.now());
-            setTimeout(() => { client.cooldowns.delete(`${cmd}-${message.author.id}`); }, cmd.Cooldown * 1000);
+            if (cmd.Cooldown > 0) client.cooldowns.set(`${cmd.Name}-${message.author.id}`, Date.now());
+            setTimeout(() => { client.cooldowns.delete(`${cmd.Name}-${message.author.id}`); }, cmd.Cooldown * 1000);
             client.logger.log(`Command: ${cmd.Name} was ran by ${message.author.tag}${!message.guild ? ' in DM\'s' : ` in guild: ${message.guild.name}`}.`);
         }
     },
@@ -90,7 +90,7 @@ module.exports = {
         if (!cmd) return client.embed(interaction, interaction.guild.translate("misc:ERR_OCCURRED"));
 
         if (!interaction.channel.permissionsFor(interaction.guild.members.me).has("SendMessages")) return;
-        if (client.cooldowned.has(`${cmd}-${interaction.user.id}`)) return;
+        if (client.cooldowned.has(`${cmd.Name}-${interaction.user.id}`)) return;
 
         if (cmd.Category === "Root" && !Owners.includes(interaction.user.id)) {
             return client.embed(interaction, interaction.guild.translate("misc:OWNER_ONLY"));
@@ -130,16 +130,16 @@ module.exports = {
 			return client.embed(interaction, interaction.translate("misc:MISSING_MEMBER_PERMS", { PERMISSIONS: perms.toArray().map((p) => message.translate(`permissions:${p}`)).join(', ') }))
 		}
 
-        if (client.cooldowns.has(`${cmd}-${interaction.user.id}`)) {
-            const lastTime = client.cooldowns.get(`${cmd}-${interaction.user.id}`);
+        if (client.cooldowns.has(`${cmd.Name}-${interaction.user.id}`)) {
+            const lastTime = client.cooldowns.get(`${cmd.Name}-${interaction.user.id}`);
             const cooldownExpiration = lastTime + cmd.Cooldown * 1000;
             const cooldowned = Date.now() + cmd.Cooldown * 1000
 
             if (Date.now() < cooldownExpiration) {
                 const remainingTime = (cooldownExpiration - Date.now()) / 1000;
                 client.embed(interaction, interaction.guild.translate("misc:COOLDOWN", { TIME: await toDiscordTimestamp(cooldowned) }), cmd.Cooldown * 1000);
-                client.cooldowned.set(`${cmd}-${interaction.user.id}`, Date.now());
-                setTimeout(() => { client.cooldowned.delete(`${cmd}-${interaction.user.id}`); }, cmd.Cooldown * 1000);
+                client.cooldowned.set(`${cmd.Name}-${interaction.user.id}`, Date.now());
+                setTimeout(() => { client.cooldowned.delete(`${cmd.Name}-${interaction.user.id}`); }, cmd.Cooldown * 1000);
                 return;
             }
         }
@@ -156,9 +156,9 @@ module.exports = {
             });
         } finally {
             client.commandsUsed++;
-            if (cmd.Cooldown > 0) client.cooldowns.set(`${cmd}-${interaction.user.id}`, Date.now());
-            setTimeout(() => { client.cooldowns.delete(`${cmd}-${interaction.user.id}`); }, cmd.Cooldown * 1000);
+            if (cmd.Cooldown > 0) client.cooldowns.set(`${cmd.Name}-${interaction.user.id}`, Date.now());
+            setTimeout(() => { client.cooldowns.delete(`${cmd.Name}-${interaction.user.id}`); }, cmd.Cooldown * 1000);
             client.logger.log(`Command: ${cmd.Name} was ran by ${interaction.user.tag}${!interaction.guild ? ' in DM\'s' : ` in guild: ${interaction.guild.name}`}.`);
         }
     }
-};
+}
