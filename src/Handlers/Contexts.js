@@ -8,11 +8,11 @@ module.exports = {
         .has("SendMessages")
     )
       return;
-    if (client.cooldowned.has(`${context}-${interaction.user.id}`)) return;
+    if (client.cooldowned.has(`${context.Name}-${interaction.user.id}`)) return;
 
-    if (client.cooldowns.has(`${context}-${interaction.user.id}`)) {
+    if (client.cooldowns.has(`${context.Name}-${interaction.user.id}`)) {
       const lastTime = client.cooldowns.get(
-        `${context}-${interaction.user.id}`
+        `${context.Name}-${interaction.user.id}`
       );
       const cooldownExpiration = lastTime + context.Cooldown * 1000;
       const cooldowned = Date.now() + context.Cooldown * 1000;
@@ -26,9 +26,9 @@ module.exports = {
           }),
           context.Cooldown * 1000
         );
-        client.cooldowned.set(`${context}-${interaction.user.id}`, Date.now());
+        client.cooldowned.set(`${context.Name}-${interaction.user.id}`, Date.now());
         setTimeout(() => {
-          client.cooldowned.delete(`${context}-${interaction.user.id}`);
+          client.cooldowned.delete(`${context.Name}-${interaction.user.id}`);
         }, context.Cooldown * 1000);
         return;
       }
@@ -121,9 +121,9 @@ module.exports = {
     } finally {
       client.commandsUsed++;
       if (context.Cooldown > 0)
-        client.cooldowns.set(`${context}-${interaction.user.id}`, Date.now());
+        client.cooldowns.set(`${context.Name}-${interaction.user.id}`, Date.now());
       setTimeout(() => {
-        client.cooldowns.delete(`${context}-${interaction.user.id}`);
+        client.cooldowns.delete(`${context.Name}-${interaction.user.id}`);
       }, context.Cooldown * 1000);
       client.logger.log(
         `Command: ${context.Name} was ran by ${interaction.user.tag}${
