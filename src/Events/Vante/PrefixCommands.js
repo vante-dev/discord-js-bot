@@ -36,7 +36,15 @@ module.exports = async (client, message) => {
         }
 
         if (message.content && client.Vante.Client.Prefix.some(x => message.content.startsWith(x))) {
-            const commands = message.content.replace(`${message.content.charAt(0)}`, "").split(/\s+/)[0];
+            Prefix = client.Vante.Client.Prefix; 
+            let commands = message.content;
+
+            Prefix.forEach(value => {
+                if (commands.includes(value)) {
+                    commands = commands.replace(value, "").split(/\s+/)[0];
+                }
+            });
+
             const cmd = client.commands.get(commands) || client.aliases.get(commands);
             if (cmd) Message(client, message, cmd);
         }
