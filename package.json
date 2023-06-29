@@ -8,6 +8,7 @@
     "scripts": {
         "start": "node ./Shards.js",
         "dev": "nodemon --trace-warnings ./Shards.js"
+        "test": "echo \"Error: no test specified\" && exit 1"
     },
     "license": "GPL-3.0",
     "dependencies": {
