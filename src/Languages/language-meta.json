@@ -7,10 +7,27 @@
         "default": true,
         "aliases": [
             "English",
+            "Anglais",
+            "Englais",
             "en",
             "en-us",
             "en_us",
             "en_US"
+        ]
+    },
+    {
+        "name": "fr-FR",
+        "nativeName": "Français",
+        "moment": "fr",
+        "defaultMomentFormat": "MMMM Do YYYY",
+        "default": false,
+        "aliases": [
+            "French",
+            "Français",
+            "France",
+            "fr",
+            "fr-fr",
+            "fr-FR"
         ]
     }
 ]
