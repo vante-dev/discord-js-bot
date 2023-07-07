@@ -29,5 +29,20 @@
             "fr-fr",
             "fr-FR"
         ]
+    },
+    {
+        "name": "tr-TR",
+        "nativeName": "Türkçe",
+        "moment": "tr",
+        "defaultMomentFormat": "MMMM Do YYYY",
+        "default": false,
+        "aliases": [
+            "Türkce",
+            "Türk",
+            "Türkiye",
+            "tr",
+            "tr-tr",
+            "tr-TR"
+        ]
     }
 ]
