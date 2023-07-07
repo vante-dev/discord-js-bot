@@ -9,7 +9,7 @@
     "TIMES_UP": "Süre doldu! Lütfen komutu tekrar gönderin!",
     "INVALID_YES_NO": "\"Evet\" veya \"hayır\" diyebilirsiniz!",
     "INVALID_CHANNEL": "Lütfen geçerli bir kanal belirtin!",
-    "INVALID_TIME": "Geçerli bir saat girmelisiniz! Mevcut birimler: `s`, `m`, `h` or `d`",
+    "INVALID_TIME": "Geçerli bir saat girmelisiniz! Mevcut birimler: `s`, `m`, `h` ya da `d`",
     "INVALID_NUMBER": "Lütfen geçerli bir numara belirtin!",
     "INVALID_NUMBER_RANGE": "Lütfen **{{min}}** ile **{{max}}** arasında geçerli bir sayı belirtin!",
     "BOT_USER": "Belirttiğiniz kullanıcı bir bot!",
