@@ -1,1 +1,10 @@
-
+{
+    "ONE_DAY": "1 gün",
+    "DAYS": "{{amount}} günler",
+    "ONE_HOUR": "1 saat",
+    "HOURS": "{{amount}} saatler",
+    "ONE_MINUTE": "1 dakika",
+    "MINUTES": "{{amount}} dakikalar",
+    "ONE_SECOND": "1 saniye",
+    "SECONDS": "{{amount}} saniyeler"
+}
