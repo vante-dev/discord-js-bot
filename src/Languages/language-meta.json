@@ -6,9 +6,9 @@
         "defaultMomentFormat": "MMMM Do YYYY",
         "default": true,
         "aliases": [
-            "English",
             "Anglais",
             "Englais",
+            "US",
             "en",
             "en-us",
             "en_us",
@@ -23,7 +23,7 @@
         "default": false,
         "aliases": [
             "French",
-            "Français",
+            "Francais",
             "France",
             "fr",
             "fr-fr",
