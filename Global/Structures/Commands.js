@@ -2,6 +2,7 @@ const {
     PermissionsBitField: { Flags }, 
     ApplicationCommandOptionType: { Subcommand, SubcommandGroup, String, Integer, Boolean, } 
 } = require('discord.js'); 
+
 module.exports = {
     Name: '',
     Aliases: [''],
@@ -13,14 +14,13 @@ module.exports = {
     Permissions: {
         User: [],
         Bot: [],
-        Role: []
     },
 
     Command: {
         Prefix: true,
         Slash: true,
         Ephemeral: true,
-        Option: [],
+        Options: [],
     },
     
     /**
