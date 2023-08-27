@@ -1,0 +1,15 @@
+{
+	"ERROR": "Something went wrong... Please retry again later!",
+	"INCORRECT_FORMAT": "Uhh... something here is wrong, but don't worry!\nFollow my tip that will work out \n\n{{commandExample}}",
+	"HELP_INFO": "```diff\n- You used an invalid argument\n+ Please read below and try again\n\nUse: {{USAGE}}```",
+	"ERROR_MESSAGE": "The following error has occurred: **{{err}}**.\nIf this error keeps occurring, report by command `/bug`.",
+	"MISSING_PERMISSION": "Sorry, I couldn't execute the command you asked me to because I don't have these permissions: `{{PERMISSIONS}}`. Please, ask someone from the server administration **{{guild}}** to give me these permissions so I can work properly.",
+	"MISSING_LANGUAGE": "Sorry, I couldn't find that language.",
+	"LANGUAGE_SET": "Language has been set to `{{language}}`.",
+	"USER_PERMISSION": "You are missing the permission: `{{PERMISSIONS}}`.",
+	"COOLDOWNED": "You must wait {{TIME}} to be able to run this command again!",
+	"INTRO": "🧸 Hello, my name is {{USER}}, and I'm a Multipurpose GPT Chatbot with AI Image Generator, Counting , Logging, Leveling, Reaction Roles, Boost Tracker, Welcomer, Ticket.",
+    "INFO": "I've been online for {{UPTIME}}, helping {{GUILDS}} servers and {{USERS}} users with {{CMDS}} commands.",
+    "FOOTER": "{{CLIENT}} have received {{MESSAGES}} messages and successfully executed {{COMMANDS}} commands in total my prefix for this server is: **(**` {{PREFIX}} `**)**.",
+	"GUILD_ONLY": "This command is only available on a server!"
+}

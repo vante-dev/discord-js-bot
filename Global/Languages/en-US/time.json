@@ -1,0 +1,16 @@
+{
+    "DAYS": "{{amount}} days",
+    "HOURS": "{{amount}} hours",
+    "MINUTES": "{{amount}} minutes",
+    "SECONDS": "{{amount}} seconds",
+    "NOT_NUMBER": "Must be a number.",
+    "INCORRECT_DELIMITERS": "Please use one of the following time delimiters: `d`,  `h`,  `m`, `s`.",
+    "day": "day",
+    "days": "days",
+    "hour": "hour",
+    "hours": "hours",
+    "minute": "minute",
+    "minutes": "minutes",
+    "second": "second",
+    "seconds": "seconds"
+}

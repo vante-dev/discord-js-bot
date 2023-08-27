@@ -1,43 +1,31 @@
 {
-    "name": "vante-example",
-    "description": "Imagine a bot with everything you need.",
-    "repository": "github:vante-xyz/discord-js-bot",
-    "version": "1.0.0",
+    "name": "discord-js-bot",
+    "description": "The Advanced Discord bot commands & events handler built with discord.js version 14 and written in JavaScript. This handler can load up to 4 different type of commands; Prefix, Slash, User context and Message context",
+    "homepage": "https://vante.dev/projects",
+    "repository": "github:vante-dev/discord-js-bot",
+    "version": "2.0.0",
     "author": "Kaan 'Vante' Karahanlı",
-    "main": "./Shards.js",
+    "main": "./Server/shard.js",
     "scripts": {
-        "start": "node ./Shards.js",
-        "dev": "nodemon --trace-warnings ./Shards.js"
+        "start": "node ./Server/shard.js",
+        "dev": "nodemon --trace-warnings ./Server/shard.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "license": "GPL-3.0",
     "dependencies": {
+        "@discordjs/voice": "^0.16.0",
+        "@napi-rs/canvas": "^0.1.44",
+        "axios": "^1.4.0",
         "chalk": "^4.1.2",
-        "cli-spinners": "^2.9.0",
-        "discord.js": "^14.11.0",
-        "folder-connect": "^1.0.0",
-        "i18next": "^23.2.3",
+        "dayjs": "^1.11.9",
+        "discord.js": "^14.13.0",
+        "i18next": "^23.4.6",
         "i18next-node-fs-backend": "^2.1.3",
         "moment": "^2.29.4",
-        "mongoose": "^7.3.1",
-        "string-similarity": "^4.0.4",
-        "vante.ai": "^3.0.0"
+        "mongoose": "^6.6.1",
+        "sourcebin_js": "^0.0.3-ignore"
     },
-    "devDependencies": {
-        "nodemon": "^2.0.22"
-    },
-    "Directories": {
-        "@root": ".",
-        "@src": "src/",
-        "@assets": "src/Assets/",
-        "@database": "src/Database/",
-        "@schemas": "src/Database/Models/",
-        "@configs": "src/Database/Settings/",
-        "@handlers": "src/Handlers/",
-        "@helpers": "src/Helpers/",
-        "@utils": "src/Helpers/Utils/",
-        "@client": "src/Vante/",
-        "@extenders": "src/Vante/Extenders/",
-        "@scripts": "src/Vante/Scripts/"
+    "engines": {
+        "node": ">=16.9.0"
     }
 }
