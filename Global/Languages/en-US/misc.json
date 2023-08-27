@@ -9,7 +9,9 @@
 	"USER_PERMISSION": "You are missing the permission: `{{PERMISSIONS}}`.",
 	"COOLDOWNED": "You must wait {{TIME}} to be able to run this command again!",
 	"INTRO": "🧸 Hello, my name is {{USER}}, and I'm a Multipurpose GPT Chatbot with AI Image Generator, Counting , Logging, Leveling, Reaction Roles, Boost Tracker, Welcomer, Ticket.",
-    "INFO": "I've been online for {{UPTIME}}, helping {{GUILDS}} servers and {{USERS}} users with {{CMDS}} commands.",
-    "FOOTER": "{{CLIENT}} have received {{MESSAGES}} messages and successfully executed {{COMMANDS}} commands in total my prefix for this server is: **(**` {{PREFIX}} `**)**.",
-	"GUILD_ONLY": "This command is only available on a server!"
+    	"INFO": "I've been online for {{UPTIME}}, helping {{GUILDS}} servers and {{USERS}} users with {{CMDS}} commands.",
+    	"FOOTER": "{{CLIENT}} have received {{MESSAGES}} messages and successfully executed {{COMMANDS}} commands in total my prefix for this server is: **(**` {{PREFIX}} `**)**.",
+	"GUILD_ONLY": "This command is only available on a server!",
+	"PREFIX_LENGTH": "Unfortunately the prefix cannot be longer than 3 characters.",
+	"PREFIX": "The `prefix` has been successfully updated. ` {{OLD}} ` ➔ ` {{NEW}} `"
 }
