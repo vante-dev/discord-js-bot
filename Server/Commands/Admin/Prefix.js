@@ -1,5 +1,4 @@
 const { PermissionsBitField: { Flags } } = require('discord.js'); 
-const { commands } = require('../../../Global/Prototypes/Guild');
 
 module.exports = {
     Name: 'prefix',
@@ -32,6 +31,18 @@ module.exports = {
             })
         })
 
+        if (newPrefix.length > 3) return message.channel.send(message.translate('misc:PREFIX_LENGTH'));
+
+        await message.guild.updateGuild({ prefix: newPrefix })
+
+        const embed = client.embed(message, {
+            title: message.translate('misc:PREFIX', {
+                OLD: oldPrefix,
+                NEW: newPrefix
+            })
+        })
+
+        message.channel.send({ embeds: [embed] })
     },
 
     interactionRun: async (client, interaction) => {},
