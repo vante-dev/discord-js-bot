@@ -20,13 +20,9 @@ module.exports = {
         Prefix: true,
         Slash: true,
         Ephemeral: true,
-    },
-
-    SlashCommand: {
-        Name: {},
-        Description: {},
         Option: [],
     },
+    
     /**
      * Function to execute when the module is loaded.
      * @param {Client} client - The Discord bot client instance.
