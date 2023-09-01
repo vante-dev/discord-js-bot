@@ -20,8 +20,7 @@ module.exports = async (client, message) => {
                 message.translate('misc:INFO',  { UPTIME: getReadableTime(client.uptime), GUILDS: totalGuilds.toString(), USERS: totalMembers.toString(), CMDS: client.commands.size }),
                 message.translate("misc:FOOTER", { CLIENT: client.user.tag, COMMANDS: client.commandsUsed, MESSAGES: client.messagesSent, PREFIX: client.Vante.Prefix }),
             ].join('\n\n'))
-
-            .setFooter({ text: "@polycord | A brand designer with 2 years of experience.", iconURL: "https://cdn.discordapp.com/avatars/622298878837915660/b53b3a1f124cb12121413bef3e40acc2.png?size=1024" })
+            
             return await message.channel.send({ embeds: [embed]})
         });
     };
