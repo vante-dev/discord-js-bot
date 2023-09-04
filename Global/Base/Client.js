@@ -1,12 +1,12 @@
-const { ActivityType, Client, Collection, GatewayIntentBits, Partials, PermissionsBitField: { Flags: PermissionFlag }, ApplicationCommandType } = require('discord.js');
-const { Client: { fileLoader, validateCommand, validateContext} } = require("../Helpers");
+const { Client, Collection, GatewayIntentBits, Partials, ApplicationCommandType } = require('discord.js');
+const { Client: { fileLoader, validateCommand, validateContext } } = require("../Helpers");
 
 class VanteClient extends Client {
-    constructor(Vante) {
-		super({
-			partials: Object.keys(Partials),
+  constructor(Vante) {
+    super({
+      partials: Object.keys(Partials),
       intents: Object.keys(GatewayIntentBits),
-		});
+    });
 
     this.Vante = Vante;
     this.commands = new Collection();
@@ -25,7 +25,7 @@ class VanteClient extends Client {
     require("../Helpers/Extras/Fonts");
 
     this.messagesSent = 0;
-		this.commandsUsed = 0;
+    this.commandsUsed = 0;
     this.success = 0;
     this.failed = 0;
   }
@@ -38,9 +38,9 @@ class VanteClient extends Client {
   * @returns {number} The interval ID that can be used to clear the loop using `clearInterval`.
   */
   async loop(fn, delay, ...param) {
-		fn();
-		return setInterval(fn, delay, ...param);
-	};
+    fn();
+    return setInterval(fn, delay, ...param);
+  };
 
   /**
   * Spawns and initializes the application.
@@ -49,7 +49,7 @@ class VanteClient extends Client {
   * @param {boolean} [context=true] - Whether to enable context menu commands.
   * @param {boolean} [database=true] - Whether to connect to the database.
   * @returns {void}
-  */3
+  */
   async spawn(prefix = true, slash = true, context = true, database = true) {
 
     this.logger.success(`Starting shards and loading commands and events...`);
@@ -58,11 +58,11 @@ class VanteClient extends Client {
     for (const file of Events) {
       try {
         const event = require(file);
-        if(event.config.System) {
+        if (event.config.System) {
           this.on(event.config.Event, event.bind(null, this));
           delete require.cache[require.resolve(file)];
-          this.success += 1; 
-        } 
+          this.success += 1;
+        }
       } catch (ex) {
         this.failed += 1;
         this.logger.error(`loadEvent ( ${file} ) - ${ex}`);
@@ -75,7 +75,7 @@ class VanteClient extends Client {
       try {
         const cmd = require(file);
         if (typeof cmd !== "object") continue;
-        if(cmd.onLoad != undefined && typeof cmd.onLoad == "function") cmd.onLoad(this);
+        if (cmd.onLoad != undefined && typeof cmd.onLoad == "function") cmd.onLoad(this);
         validateCommand(cmd);
 
         if (cmd.Command?.Prefix) {
@@ -110,7 +110,7 @@ class VanteClient extends Client {
         validateContext(ctx);
         if (ctx.Enabled) {
           if (this.contextcommands.has(ctx.Name)) throw new Error(`Context already exists with that name`);
-            this.contextcommands.set(ctx.Name, ctx);
+          this.contextcommands.set(ctx.Name, ctx);
         }
       } catch (ex) {
         this.logger.error(`Failed to load ${file} Reason: ${ex.message}`);
@@ -131,6 +131,11 @@ class VanteClient extends Client {
 
           client.translations = await require('../Helpers/Extras/Language')();
 
+          setInterval(() => {
+            const now = Date.now();
+            this.cooldowns.sweep((cooldown) => 0 >= cooldown.timestamp - now);
+          }, 1000);
+
           this.slashcommands.map((cmd) => ({
             name: cmd.Name,
             description: cmd.Description,
@@ -141,12 +146,12 @@ class VanteClient extends Client {
           this.contextcommands.map((ctx) => ({
             name: ctx.Name,
             type: ctx.Type,
-        })).forEach((c) => inreractionToRegister.push(c));
+          })).forEach((c) => inreractionToRegister.push(c));
 
-          
-        this.logger.loaded(this);
-        this.delay(1000)
-        this.logger.line()
+
+          this.logger.loaded(this);
+          this.delay(1000)
+          this.logger.line()
         }
       });
     });

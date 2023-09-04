@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 module.exports = {
 	init: (client) => {
+		mongoose.set('strictQuery', false)
 		mongoose.connect(client.system.mongoDB, {
 			useNewUrlParser: true,
 			autoIndex: false,

@@ -1,23 +1,9 @@
 const { readdirSync, lstatSync } = require(`fs`);
 const { join, extname } = require(`path`);
-const { WebHooks } = require(`../System`);
-const { ApplicationCommandType, WebhookClient  } = require(`discord.js`);
+const { ApplicationCommandType } = require(`discord.js`);
 const { cyan, red } = require("chalk"), moment = require('moment');
 const { GuildSchema } = require('../Database/Models/');
 
-/**
- * Retrieves a webhook by its ID and returns a WebhookClient object if found.
- *
- * @param {string} id - The ID of the webhook to retrieve.
- * @returns {WebhookClient|null} A WebhookClient object if a matching webhook is found, or null if not found.
- */
-async function getWebHook(id) {
-  const webhookURL = WebHooks.find(hook => hook.ID === id) ? WebHooks.find(hook => hook.ID === id).URL : null
-
-  if (webhookURL) {
-    return new WebhookClient({ url: webhookURL }) ? new WebhookClient({ url: webhookURL }) : null
-  } else return null
-}
 
 /**
  * Recursively reads files with specified extensions in a directory and its subdirectories.
@@ -128,30 +114,10 @@ if (Object.prototype.hasOwnProperty.call(cmd, `Ephemeral`) && typeof cmd.Ephemer
 }
 }
 
-async function createDB(guild, client) {
-  try {
-    await guild.fetchSettings();
-  } catch (err) {
-    console.log(`[${moment().format('l')}]: ( ${red('ERROR')} ) ${cyan(`( @createDB ) has error: \n${err.message}.`)}`);
-  }
-}
-
-async function deleteDB(guild) {
-  try {
-    await GuildSchema.findOneAndRemove({ guildID: guild.id });
-    return true;
-  } catch (err) {
-    return false;
-  }
-}
-
 
 
 module.exports = {
-    getWebHook,
     fileLoader,
-    createDB,
-    deleteDB,
     validateCommand,
     validateContext,
 }

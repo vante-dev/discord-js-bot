@@ -1,5 +1,4 @@
 const { green, cyan, yellow, red } = require("chalk"), moment = require('moment');
-const { getWebHook } = require("../Client");
 const { EmbedBuilder } = require("discord.js");
 
 module.exports = class Logger {
@@ -10,14 +9,14 @@ module.exports = class Logger {
     static async debug(content) {
         console.log(`[${moment().format('l')}]: ( ${green('DEBUG')} ) ${cyan(`${content}`)}`);
 
-        const debugWebhook = await getWebHook('System');
+        const debugWebhook = global.client.getWebHook('Debug');
         
         if (debugWebhook) {
             const VanteEmbed = new EmbedBuilder().setDescription(`\`\`\`ansi\n[2;32m[2;34m[2;34m${content}[0m[2;34m[0m[2;32m[0m\n\`\`\``)
 
             debugWebhook.send({
                 username: global.client.user.tag ? global.client.user.tag : 'Unknown Client', 
-                avatarURL: false ? options.guild.iconURL() : "https://cdn.discordapp.com/embed/avatars/1.png", 
+                avatarURL: global.client.user.displayAvatarURL(), 
                 embeds: [VanteEmbed] 
             })
 
@@ -38,7 +37,7 @@ module.exports = class Logger {
         if (options?.error) {
             console.log(`[${moment().format('l')}]: ( ${red('ERROR')} ) ${cyan(`${options.error}`)}`);
 
-            const errorWebhook = await getWebHook('System');
+            const errorWebhook = global.client.getWebHook('System');
 
             if (errorWebhook) {
                 if (options.error) if (options.error.length > 950) options.error = options.error.slice(0, 950) + '...';
@@ -65,23 +64,17 @@ module.exports = class Logger {
     static async loaded(client, about = "") {
         console.log(`[${moment().format('l')}]: ( ${green('SUCCESS')} ) ${cyan(`${`Loaded: @` + client.user.tag}`)}`);
 
-        const systemWebhook = await getWebHook('System');
-        
+        const systemWebhook = global.client.getWebHook('System');
         if (systemWebhook) {
             systemWebhook.send({
                 "content": null,
                 "embeds": [
                   {
                     "description": `\`\`\`ansi\n[2;34m[2;36mSUCCESS[0m[2;34m [2;37m|[0m[2;34m Loaded ${client.commands.size + client.contextcommands.size} commands (Prefix: ${client.commands.size - client.slashcommands.size} Slash: ${client.slashcommands.size} Context: ${client.contextcommands.size})\n[2;36mSUCCESS[0m[2;34m [2;37m|[0m[2;34m Loaded ${client.success + client.failed} events. Success (${client.success}) Failed (${client.failed})\n${client.system.mongoDB ? `[2;36mSUCCESS[0m[2;34m [2;37m|[0m[2;34m MongoDB successfully connected\n` : ""}[2;36mSUCCESS[0m[2;34m [2;37m|[0m[2;34m Loaded: @Vaneta#4755\n\`\`\``,
-                    "color": null,
-                    "footer": {
-                      "text": "Created by Vante (@q7x - 797096076330795018) | https://vante.dev/",
-                      "icon_url": "https://cdn.discordapp.com/avatars/797096076330795018/7b19c5071474ccbde4856a897b071834"
-                    }
                   }
                 ],
                 "username": `${client.user.tag}`,
-                "avatar_url": `${client.user.displayAvatarURL()}`,
+                "avatarURL": client.user.displayAvatarURL(),
             })
         }
     }

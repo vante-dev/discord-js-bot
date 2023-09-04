@@ -1,4 +1,6 @@
-const { Client, EmbedBuilder } = require("discord.js")
+const { Client, EmbedBuilder, WebhookClient } = require("discord.js")
+const { WebHooks } = require(`../System`);
+const emojis = require("../Database/Server/Emojis.json");
 
 module.exports = Object.defineProperties(Client.prototype, {
     /**
@@ -22,33 +24,33 @@ module.exports = Object.defineProperties(Client.prototype, {
     * @returns {EmbedBuilder} The created embed instance.
     */
     embed: {
-		value: function (message, opt) {
+        value: function (message, opt) {
             const embed = new EmbedBuilder()
                 .setColor(opt.color || 0x000001)
                 .setFooter({ text: opt.footer?.text || 'Developed By Vante', iconURL: message?.member.displayAvatarURL({ dynamic: true, size: 1024 }) || opt.footer?.icon || this.user.avatarURL({ size: 1024 }) })
-                
-            if(opt.author && (opt.author.name || opt.author.icon)) 
+
+            if (opt.author && (opt.author.name || opt.author.icon))
                 embed.setAuthor({ name: opt.author?.name || null, iconURL: opt.author.icon || null });
 
-            if(opt.description) 
+            if (opt.description)
                 embed.setDescription(opt.description);
 
-            if(opt.fields && opt.fields.length > 0) 
+            if (opt.fields && opt.fields.length > 0)
                 embed.setFields(opt.fields);
 
-            if(opt.image) 
+            if (opt.image)
                 embed.setImage(opt.image);
 
-            if(opt.thumbnail) 
+            if (opt.thumbnail)
                 embed.setThumbnail(opt.thumbnail);
 
-            if(opt.title) 
+            if (opt.title)
                 embed.setTitle(opt.title);
 
-            if(opt.url) 
+            if (opt.url)
                 embed.setURL(opt.url);
 
-            if(opt.timestamp) 
+            if (opt.timestamp)
                 embed.setTimestamp();
 
             return embed;
@@ -69,38 +71,38 @@ module.exports = Object.defineProperties(Client.prototype, {
                 .setFooter({ text: 'Developed By Vante', iconURL: interaction?.member.displayAvatarURL({ dynamic: true, size: 1024 }) || interaction.user.avatarURL({ size: 1024 }) })
                 .setDescription(`>>> ${data.substring(0, 3000)}`);
 
-            if(!cooldown) {
+            if (!cooldown) {
                 if (interaction.deferred) {
 
                     interaction.followUp({ embeds: [embed], ephemeral: true }).then(x => {
                         setTimeout(() => {
-                            if (x && x.deletable) x.delete().catch(err => {})
+                            if (x && x.deletable) x.delete().catch(err => { })
                         }, 15 * 1000);
-                    }).catch((e) => {});
+                    }).catch((e) => { });
 
                 } else {
 
                     interaction.reply({ embeds: [embed], ephemeral: true }).then(x => {
                         setTimeout(() => {
-                            if (x && x.deletable) x.delete().catch(err => {})
+                            if (x && x.deletable) x.delete().catch(err => { })
                         }, 15 * 1000);
-                    }).catch((e) => {});
+                    }).catch((e) => { });
                 }
             } else {
                 if (interaction.deferred) {
 
                     interaction.followUp({ embeds: [embed], ephemeral: true }).then(x => {
                         setTimeout(() => {
-                            if (x && x.deletable) x.delete().catch(err => {})
+                            if (x && x.deletable) x.delete().catch(err => { })
                         }, cooldown);
-                    }).catch((e) => {});
+                    }).catch((e) => { });
                 } else {
 
                     interaction.reply({ embeds: [embed], ephemeral: true }).then(x => {
                         setTimeout(() => {
-                            if (x && x.deletable) x.delete().catch(err => {})
+                            if (x && x.deletable) x.delete().catch(err => { })
                         }, cooldown);
-                    }).catch((e) => {});
+                    }).catch((e) => { });
 
                 }
             }
@@ -118,7 +120,7 @@ module.exports = Object.defineProperties(Client.prototype, {
             function isInt(value) {
                 return Number.isInteger(value);
             }
-    
+
             if (typeof date === 'number' || isInt(date)) {
                 return `<t:${Math.trunc(+date / 1000)}:${flag}>`;
             }
@@ -132,7 +134,7 @@ module.exports = Object.defineProperties(Client.prototype, {
     * @returns {Promise<void>} A Promise that resolves after the specified delay.
     */
     delay: {
-        value: function (ms){
+        value: function (ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
     },
@@ -145,11 +147,49 @@ module.exports = Object.defineProperties(Client.prototype, {
     * @returns {string} The translated string or an error message.
     */
     translate: {
-        value: function (key, args, locale){
+        value: function (key, args, locale) {
             if (!locale) locale = this.system.Client.Language;
-		    const language = this.translations.get(locale);
-		    if (!language) return 'Invalid language set in data.';
-		    return language(key, args);
+            const language = this.translations.get(locale);
+            if (!language) return 'Invalid language set in data.';
+            return language(key, args);
         }
-    }
+    },
+
+    /**
+    * Retrieves a webhook by its ID and returns a WebhookClient object if found.
+    *
+    * @param {string} id - The ID of the webhook to retrieve.
+    * @returns {WebhookClient|null} A WebhookClient object if a matching webhook is found, or null if not found.
+    */
+    getWebHook: {
+        value: function (id) {
+            const webhookURL = WebHooks.find(hook => hook.ID === id) ? WebHooks.find(hook => hook.ID === id).URL : undefined
+
+            if (webhookURL) {
+                const parts = webhookURL.split("/").slice(-2);
+
+                const id = parts[0];
+                const token = parts[1];
+
+                return new WebhookClient({ url: `https://discord.com/api/webhooks/${id}/${token}` }) ?? undefined;
+            }
+
+            return undefined
+        }
+    },
+
+
+    /**
+     * Finds the emoji with the given emoji name in the emojis.json file.
+     *
+     * @function
+     * @param {string} emojiName - The name of the emoji to find.
+     * @returns {string|null} The Unicode character of the found emoji, or null if not found.
+     */
+    getEmoji: {
+        value: function (emojiName) {
+            const emoji = emojis[emojiName];
+            return emoji || null;
+        },
+    },
 });

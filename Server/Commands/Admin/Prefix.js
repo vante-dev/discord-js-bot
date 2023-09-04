@@ -33,7 +33,7 @@ module.exports = {
 
         if (newPrefix.length > 3) return message.channel.send(message.translate('misc:PREFIX_LENGTH'));
 
-        await message.guild.updateGuild({ prefix: newPrefix })
+        await message.guild.updateGuild({ prefix: [newPrefix] })
 
         const embed = client.embed(message, {
             title: message.translate('misc:PREFIX', {

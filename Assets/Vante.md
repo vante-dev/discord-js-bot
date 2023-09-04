@@ -23,5 +23,5 @@ Here's the list of Vante Bots commands. This one contains more than **10 command
 | leave	|	Force the bot to leave the server	|	``` leave <ServerID> ```	|
 | portal	|	Force the bot to create a invite to the server	|	``` portal <ServerID> ```	|
 | servers	|	Displays a list of client joined servers.	|	``` servers ```	|
-| test	|	tst	|	``` tst <args> ```	|
+| test	|	Test area	|	```  ```	|
 

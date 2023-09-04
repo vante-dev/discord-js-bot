@@ -1,5 +1,4 @@
 const { EmbedBuilder } = require("discord.js");
-const { Client: { getWebHook } } = require("../../../Global/Helpers")
 
 module.exports = async (client, { route, timeout, limit }) => {
     client.logger.error(`Rate limit: ${route} (Cooldown: ${timeout}ms)`);
@@ -11,7 +10,7 @@ module.exports = async (client, { route, timeout, limit }) => {
 	.addField('Cooldown', `${timeout}ms`, true)
     .setTimestamp();
 
-    const log = getWebHook("System");
+    const log = client.getWebHook("System");
 
     if (log) log.send({
         username: client.user.username ? client.user.username + `( ${client.user.id} )` : 'Unknown Guild', 
