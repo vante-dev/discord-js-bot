@@ -16,4 +16,4 @@ process.on('unhandledRejection', (reason) => {
     error(reason)
 });
 
-manager.spawn();
+manager.spawn({ timeout: -1 });
