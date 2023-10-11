@@ -1,0 +1,22 @@
+{
+	"ERROR": "Bir şeyler yanlış gitti... Lütfen daha sonra tekrar deneyin!",
+	"INCORRECT_FORMAT": "Uhh... burada bir şeyler yanlış, ama endişelenme!\nAşağıdaki önerimi takip et, işe yarayacak:\n\n{{commandExample}}",
+	"HELP_INFO": "```diff\n- Geçersiz bir argüman kullandınız\n+ Lütfen aşağıdaki bilgilere göz atın ve tekrar deneyin\n\nKullanım: {{USAGE}}```",
+	"ERROR_MESSAGE": "Aşağıdaki hata oluştu: **{{err}}**.\nEğer bu hata devam ederse, `/bug` komutu ile raporlayın.",
+	"MISSING_PERMISSION": "Üzgünüm, istediğiniz komutu çalıştıramadım çünkü şu izinlere sahip değilim: `{{PERMISSIONS}}`. Lütfen, **{{guild}}** sunucu yönetiminden birine bu izinleri vermesini isteyin, böylece düzgün çalışabilirim.",
+	"MISSING_LANGUAGE": "Üzgünüm, bu dili bulamadım.",
+	"MISSING_PREFIX": "Üzgünüm, bu öneki bulamadım.",
+	"LANGUAGE_SET": "Dil `{{language}}` olarak ayarlandı.",
+	"USER_PERMISSION": "Şu izne sahip değilsiniz: `{{PERMISSIONS}}`.",
+	"COOLDOWNED": "Bu komutu tekrar çalıştırabilmek için {{TIME}} beklemelisiniz!",
+	"GUILD_ONLY": "Bu komut sadece bir sunucuda kullanılabilir!",
+	"OWNER_ONLY": "Bu komut sadece geliştiriciler için kullanılabilir!",
+	"PREFIX_LENGTH": "Üzgünüm, önek 3 karakterden uzun olamaz.",
+	"PREFIX": "`Önek` başarıyla güncellendi. `{{OLD}}` ➔ `{{NEW}}`",
+	"BOT_PREFIX": "Bu sunucudaki komutlar şu öncekle başlar: `{{PREFIX}}`",
+	"NEWS": "**__Son haberler: {{DATE}}__** [`({{DATE2}})`](https://vante.dev/)\n{{NEWS}}",
+	"BUG": "Bir hata buldunuz ya da bir komutun düzgün çalışmadığını düşünüyorsunuz? Geliştiriciye bildirmek için `</bug:{{COMMAND}}>` kullanın.",
+	"FEEDBACK": "Bot hakkındaki düşüncelerinizi paylaşmak için `</feedback:{{COMMAND}}>` komutunu kullanarak bize yardımcı olun.",
+	"SUPPORT": "Destek sunucumuza katılın [destek sunucusu]({{LINK}}), yardıma ihtiyacınız varsa, güncellemeler ve bilinen sorunlar hakkında bilgi almak istiyorsanız, veya botun geliştirilmesine katkıda bulunmak istiyorsanız. Topluluğumuzda bulunmanızı ve katkıda bulunmanızı bekliyoruz!",
+	"FOOTER": "Ah! Ve muhteşem sunucunuzun bir parçası olmama izin verdiğiniz için teşekkür ederim <3"
+}
