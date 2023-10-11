@@ -46,24 +46,59 @@
 <br>
 
 # Features
-- Commands Handler
-- Slash Commands Handler
-- Context Menu Commands Handler
-- Events Handler
-- Permission Handler
-- Cooldowns
+- Command handling
+- Slash command support
+- Context menu support
+- Multi-language support
+- Webhook logs
+- Shard support
+- Custom database support
 
-## Installation & Setup
-```fix
-Start.bat
+## Directory Structure
+- Assets (Fonts for canvas & images)
+- Global (Base, Database, Helpers, Languages, Structures, Utils)
+- Server (Commands, Contexts, Events, index.js, shard.js)
 
-you can find command/contextmenu & event example in ./Global/Structures
-Leave the ( ServerID ) in ( ./Global/System.js ) file blank if you want to register slash commands globally.
+<br>
+
+## Starting the project
+
+### Configuration
+
+The configuration file named **./Global/System.js** and the configuration object allows you to customize various aspects of your Discord bot, including:
+
+- **Server Settings**: Configure the primary server's unique ID and an optional server link.
+
+- **Owner ID**: Specify Discord User IDs for the bot's owners or administrators.
+
+- **Debug Mode**: Toggle debugging mode on or off.
+
+- **Client Settings**:
+  - **Token**: Store your bot's authentication token securely.
+  - **Command Prefixes**: Define command prefixes.
+  - **Presence Settings**: Customize the bot's status, type, and dynamic presence messages.
+
+- **Monitoring**:
+  - Define monitoring categories with unique IDs and webhooks.
+
+These settings allow you to tailor your bot's behavior and functionality to your needs.
+
+### Installation
+```sh
+$ npm install
 ```
----
 
-## Made by Vante (Discord: q7x)
+### Starts your Discord bot in development mode
+```sh
+$ npm run dev
+```
 
-**⭐ Remember to star the repository if you like it! ⭐**
+### Starts the bot
+```sh
+$ npm run start
+```
 
----
+### Starts the bot with shards
+```sh
+$ npm run sharded
+```

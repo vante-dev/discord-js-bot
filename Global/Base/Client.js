@@ -1,162 +1,177 @@
-const { Client, Collection, GatewayIntentBits, Partials, ApplicationCommandType } = require('discord.js');
-const { Client: { fileLoader, validateCommand, validateContext } } = require("../Helpers");
+const { Client, Partials, GatewayIntentBits, Collection, ApplicationCommandType } = require("discord.js");
+const { validateCommand, validateContext } = require("../Helpers/Validator");
+const FileManager = require("../Helpers/File");
+const BotDatabase = require("./Database");
 
 class VanteClient extends Client {
-  constructor(Vante) {
-    super({
-      partials: Object.keys(Partials),
-      intents: Object.keys(GatewayIntentBits),
-    });
+    constructor(options) {
+        super({
+            partials: Object.keys(Partials),
+            intents: Object.keys(GatewayIntentBits),
+        });
 
-    this.Vante = Vante;
-    this.commands = new Collection();
-    this.slashcommands = new Collection();
-    this.contextcommands = new Collection();
-    this.cooldowns = new Collection();
-    this.cooldowned = new Collection();
-    this.aliases = new Collection();
+        this.Vante = options;
+        this.commands = new Collection();
+        this.aliases = new Collection();
+        this.slashCommands = new Collection();
+        this.contextMenus = new Collection();
+        this.cooldowns = new Collection();
 
-    this.mongoose = require('../Database/Mongoose');
-    this.languages = require(`${__dirname}/../Languages/language-meta.json`);
-    this.logger = global.logger = require("../Helpers/Extras/Logger");
-    this.system = (global.system = require(`../System`));
+        this.languages = require(`${__dirname}/../Languages/language-meta.json`);
+        this.system = (global.system = require(`../System`));
+        this.logger = (global.logger = require("../Helpers/Logger"));
+        this.emoji = (global.emoji = require("../Database/Emoji.json"))
 
-    require("../Prototypes");
-    require("../Helpers/Extras/Fonts");
-
-    this.messagesSent = 0;
-    this.commandsUsed = 0;
-    this.success = 0;
-    this.failed = 0;
-  }
-
-  /**
-  * Execute a function in a loop with a specified delay.
-  * @param {Function} fn - The function to be executed in the loop.
-  * @param {number} delay - The delay between each execution of the function, in milliseconds.
-  * @param {...*} param - Additional parameters to pass to the function.
-  * @returns {number} The interval ID that can be used to clear the loop using `clearInterval`.
-  */
-  async loop(fn, delay, ...param) {
-    fn();
-    return setInterval(fn, delay, ...param);
-  };
-
-  /**
-  * Spawns and initializes the application.
-  * @param {boolean} [prefix=true] - Whether to enable prefix commands.
-  * @param {boolean} [slash=true] - Whether to enable slash commands.
-  * @param {boolean} [context=true] - Whether to enable context menu commands.
-  * @param {boolean} [database=true] - Whether to connect to the database.
-  * @returns {void}
-  */
-  async spawn(prefix = true, slash = true, context = true, database = true) {
-
-    this.logger.success(`Starting shards and loading commands and events...`);
-
-    const Events = fileLoader("Server/Events");
-    for (const file of Events) {
-      try {
-        const event = require(file);
-        if (event.config.System) {
-          this.on(event.config.Event, event.bind(null, this));
-          delete require.cache[require.resolve(file)];
-          this.success += 1;
-        }
-      } catch (ex) {
-        this.failed += 1;
-        this.logger.error(`loadEvent ( ${file} ) - ${ex}`);
-      }
+        require("../Helpers");
     };
 
+    /**
+    * Spawns and initializes the application.
+    */
+    async spawn() {
+        this.logger.success(`Spawns shards and initializes the application.`);
+        this.database = new BotDatabase({ Folder: 'Global/Database', UpdateCheck: false, Client: this });
+        let success = 0, error = 0;
 
-    const Commands = fileLoader("Server/Commands");
-    for (const file of Commands) {
-      try {
-        const cmd = require(file);
-        if (typeof cmd !== "object") continue;
-        if (cmd.onLoad != undefined && typeof cmd.onLoad == "function") cmd.onLoad(this);
-        validateCommand(cmd);
+        const Events = new FileManager({
+            Folder: 'Events',
+            Type: 'Event',
+            Load: true
+        });
 
-        if (cmd.Command?.Prefix) {
-          if (this.commands.has(cmd.Name)) {
-            throw new Error(`Command ${cmd.Name} already registered`);
-          }
+        const Commands = new FileManager({
+            Folder: 'Commands',
+            Type: 'Command',
+            Load: this.Vante.Commands || false
+        });
 
-          if (Array.isArray(cmd.Aliases)) {
-            cmd.Aliases.forEach((alias) => {
-              if (this.aliases.has(alias)) throw new Error(`Alias ${alias} already registered`);
-              this.aliases.set(alias, cmd)
+        const Contexts = new FileManager({
+            Folder: 'Contexts',
+            Type: 'Context',
+            Load: this.Vante.Contexts || false
+
+        });
+
+        for (const file of Events.filePaths) {
+            try {
+                const event = require(file);
+                if (!event.config.Development) {
+                  this.on(event.config.Event, event.bind(null, this));
+                  delete require.cache[require.resolve(file)];
+                  success += 1;
+                }
+            } catch (ex) {
+                error += 1;
+                this.logger.error(`loadEvent ( ${file} ) - ${ex}`);
+            };
+        };
+
+        for (const file of Commands.filePaths) {
+            try {
+                const data = require(file);
+                if (typeof data !== "object") continue;
+                if (data.onLoad != undefined && typeof data.onLoad == "function") data.onLoad(this);
+
+                const valid = validateCommand(data);
+
+                if (valid) {
+                    if (data.Command.Prefix) {
+                        if (this.commands.has(data.Name)) {
+                            throw new Error(`Command "${data.Name}" already registered`);
+                        };
+
+                        if (Array.isArray(data.Aliases)) {
+                            data.Aliases.forEach((alias) => {
+                                if (this.aliases.has(alias))  throw new Error(`Alias ${alias} already registered`);
+                                this.aliases.set(alias, data);
+                            });
+                        };
+
+                        this.commands.set(data.Name, data);
+                    };
+
+                    if (data.Command.Slash) {
+                        if (this.slashCommands.has(data.Name)) throw new Error(`Slash Command "${data.Name}" already registered`);
+                        this.slashCommands.set(data.Name, data);
+                    };
+                }; 
+            } catch (error) {
+                this.logger.error(`Failed to load ${file} Reason: ${error.message}`);
+            };
+        };
+
+        for (const file of Contexts.filePaths) {
+            try {
+                const data = require(file);
+                if (typeof data !== "object") continue;
+
+                const valid = validateContext(data);
+                if (valid) {
+                    if (data.Enabled) {
+                        if (this.contextMenus.has(data.Name)) throw new Error(`Context already exists with that name`);
+                        this.contextMenus.set(data.Name, data);
+                    };
+                };
+            } catch (error) {
+                this.logger.error(`Failed to load ${file} Reason: ${error.message}`);
+            };
+        };
+
+
+        this.logger.success(`Loaded ${this.commands.size + this.slashCommands.size + this.contextMenus.size} commands (Prefix: ${this.commands.size} Slash: ${this.slashCommands.size} Context: ${this.contextMenus.size})`);
+        this.logger.success(`Loaded ${success + error} events. Success (${success}) Failed (${error})`);
+
+        if (this.slashCommands.size > 100) this.logger.error("A maximum of 100 slash commands can be enabled");
+
+        this.login(this.Vante.Token).then(app => {
+            this.on('ready', async (client) => {
+
+                client.translations = await require('../Helpers/Language')();
+                
+                if (this.Vante.Commands || this.Vante.Contexts) {
+                    const interactionToRegister = [];
+
+                    const { run } = require('../Helpers/Languages');
+
+                    const ConvertSlashCommands = Promise.all(this.slashCommands.map(async (cmd) => {
+                        const [name_localizations, description_localizations] = await Promise.all([
+                            run(client, cmd.Name),
+                            run(client, cmd.Description, true)
+                        ]);
+
+                        return {
+                            name: cmd.Name,
+                            description: cmd.Description,
+                            description_localizations: description_localizations ?? {},
+                            type: ApplicationCommandType.ChatInput,
+                            options: cmd.Command.Options,
+                        };
+                    }));
+                    
+                    const ConvertContextMenus = Promise.all(this.contextMenus.map(async (cmd) => {
+                        const name_localizations = await run(client, cmd.Name, true);
+                    
+                        return {
+                            name: cmd.Name,
+                            name_localizations: name_localizations ?? {},
+                            type: cmd.Type,
+                        };
+                    }));
+                    
+                    const [slashCommandsResult, contextMenusResult] = await Promise.all([ConvertSlashCommands, ConvertContextMenus]);
+
+                    interactionToRegister.push(...slashCommandsResult);
+                    interactionToRegister.push(...contextMenusResult);
+
+
+                    await this.application.commands.set(interactionToRegister);
+                };
+
+                this.logger.loaded(this);
+                this.logger.line();
             });
-          }
-
-          this.commands.set(cmd.Name, cmd);
-        }
-
-        if (cmd.Command?.Slash) {
-          if (this.slashcommands.has(cmd.Name)) throw new Error(`Slash Command ${cmd.Name} already registered`);
-          this.slashcommands.set(cmd.Name, cmd);
-        }
-      } catch (ex) {
-        this.logger.error(`Failed to load ${file} Reason: ${ex.message}`);
-      }
+        });        
     };
-
-    const Contexts = fileLoader("Server/Contexts");
-    for (const file of Contexts) {
-      try {
-        const ctx = require(file);
-        if (typeof ctx !== "object") continue;
-        validateContext(ctx);
-        if (ctx.Enabled) {
-          if (this.contextcommands.has(ctx.Name)) throw new Error(`Context already exists with that name`);
-          this.contextcommands.set(ctx.Name, ctx);
-        }
-      } catch (ex) {
-        this.logger.error(`Failed to load ${file} Reason: ${ex.message}`);
-      }
-    };
-
-    this.mongoose.init(this);
-
-    this.logger.success(`Loaded ${this.commands.size + this.contextcommands.size} commands (Prefix: ${this.commands.size} Slash: ${this.slashcommands.size} Context: ${this.contextcommands.size})`);
-    this.logger.success(`Loaded ${this.success + this.failed} events. Success (${this.success}) Failed (${this.failed})`);
-    if (this.slashcommands.size > 100) this.logger.error("A maximum of 100 slash commands can be enabled");
-
-    this.login(this.Vante.Token).then(kaanxsrd => {
-
-      this.on("ready", async (client) => {
-        if (this.Vante.Commands || this.Vante.Contexts) {
-          const inreractionToRegister = [];
-
-          client.translations = await require('../Helpers/Extras/Language')();
-
-          setInterval(() => {
-            const now = Date.now();
-            this.cooldowns.sweep((cooldown) => 0 >= cooldown.timestamp - now);
-          }, 1000);
-
-          this.slashcommands.map((cmd) => ({
-            name: cmd.Name,
-            description: cmd.Description,
-            type: ApplicationCommandType.ChatInput,
-            options: cmd.Command.Options,
-          })).forEach((s) => inreractionToRegister.push(s));
-
-          this.contextcommands.map((ctx) => ({
-            name: ctx.Name,
-            type: ctx.Type,
-          })).forEach((c) => inreractionToRegister.push(c));
-
-
-          this.logger.loaded(this);
-          this.delay(1000)
-          this.logger.line()
-        }
-      });
-    });
-
-  }
 };
 
-module.exports = { VanteClient }
+module.exports = { VanteClient };

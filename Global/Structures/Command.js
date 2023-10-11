@@ -1,9 +1,15 @@
+const { 
+    PermissionsBitField: { Flags }, 
+    ApplicationCommandOptionType: { Subcommand, SubcommandGroup, String, Integer, Boolean, } 
+} = require('discord.js'); 
+
+
 module.exports = {
-    Name: 'portal',
-    Aliases: [],
-    Description: 'Force the bot to create a invite to the server',
-    Usage: 'portal <ServerID>',
-    Category: 'Root',
+    Name: '',
+    Aliases: [''],
+    Description: '',
+    Usage: '',
+    Category: '',
     Cooldown: 0,
     
     Permissions: {
@@ -14,8 +20,8 @@ module.exports = {
 
     Command: {
         Prefix: true,
-        Slash: false,
-        Ephemeral: false,
+        Slash: true,
+        Ephemeral: true,
         
         Options: [],
     },
@@ -36,32 +42,7 @@ module.exports = {
      * @returns {Promise<void>} Returns a promise that resolves after command execution.
      * @async
      */
-    messageRun: async (client, message, args, settings) => {
-        const guildId = args[0];
-
-        if (!guildId) {
-            return message.channel.send(`You have to give me some serverID to so i can create a portal to`)
-        }
-
-        const guild = client.guilds.cache.get(args[0]);
-
-        if (!guild) {
-            return message.channel.send(`Sorry, ${message.author}. server not found`)
-        }
-
-        try {
-            await guild.channels.cache
-            .filter(channel => channel.type !== "category").first()
-            .createInvite(
-                false,
-                84600,
-                0,
-                false
-            ).then(invite => message.channel.send(`discord.gg/${invite.code}`));
-        } catch (err) {
-            message.channel.send(`"The following error has occurred: **${err}**.`)
-        }
-    },
+    messageRun: async (client, message, args, settings) => {},
 
     /**
      * Function to execute when the command is triggered via a slash command interaction.

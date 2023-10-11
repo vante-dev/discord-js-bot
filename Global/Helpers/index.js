@@ -1,8 +1,12 @@
 module.exports = {
-	Logger: require('./Extras/Logger'),
-	Paginator: require('./Extras/Paginator'),
-	Client: require('./Client'),
-	Link: require("./Link"),
-	String: require("./String"),
-	Time: require("./Time"),
+    Prototypes: require("../Structures/Prototpyes"),
+    File: require("./File"),
+    Fonts: require("./Fonts"),
+    Language: require("./Language"),
+    Logger: require("./Logger"),
+    Validator: require("./Validator"),
+    Time: require("../Utils/Time"),
+    Link: require("../Utils/Link"),
+    Presence: require("./Presence"),
+    Format: require("../Utils/Format"),
 };

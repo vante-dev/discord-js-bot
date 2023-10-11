@@ -1,19 +1,20 @@
-const { ShardingManager, DiscordAPIError } = require('discord.js');
-const { Logger: { error } } = require("../Global/Helpers"), Settings = require("../Global/System");
+ const { ShardingManager, DiscordAPIError } = require('discord.js');
+const { Logger: { error } } = require("../Global/Helpers"), { Client } = require("../Global/System");
 
-const manager = new ShardingManager(`${__dirname}/index.js`, {
-    token: Settings.Client.Token,
-    totalShards: 'auto',
-    shardList: 'auto',
-    shardArgs: ['--ansi', '--color'],
-    mode: 'process',
-    timeout: 87398,
-    respawn: true,
-}); 
+(async () => {
+    const manager = new ShardingManager(`${__dirname}/index.js`, {
+        token: Client.Token,
+        totalShards: 2,
+        shardArgs: ['--ansi', '--color'],
+        mode: 'process',
+        timeout: 90000,
+        respawn: true,
+    });
 
-process.on('unhandledRejection', (reason) => {
-    if (reason instanceof DiscordAPIError) return
-    error(reason)
-});
+    process.on('unhandledRejection', (reason) => {
+        if (reason instanceof DiscordAPIError) return
+        error(`${reason}`)
+    });
 
-manager.spawn({ timeout: -1 });
+    await manager.spawn({ timeout: -1 }).catch(e => error(`Shard Error: ` + e))
+})();

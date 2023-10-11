@@ -5,13 +5,18 @@
 	"ERROR_MESSAGE": "The following error has occurred: **{{err}}**.\nIf this error keeps occurring, report by command `/bug`.",
 	"MISSING_PERMISSION": "Sorry, I couldn't execute the command you asked me to because I don't have these permissions: `{{PERMISSIONS}}`. Please, ask someone from the server administration **{{guild}}** to give me these permissions so I can work properly.",
 	"MISSING_LANGUAGE": "Sorry, I couldn't find that language.",
+	"MISSING_PREFIX": "Sorry, I couldn't find that prefix.",
 	"LANGUAGE_SET": "Language has been set to `{{language}}`.",
 	"USER_PERMISSION": "You are missing the permission: `{{PERMISSIONS}}`.",
 	"COOLDOWNED": "You must wait {{TIME}} to be able to run this command again!",
-	"INTRO": "🧸 Hello, my name is {{USER}}, and I'm a Multipurpose GPT Chatbot with AI Image Generator, Counting , Logging, Leveling, Reaction Roles, Boost Tracker, Welcomer, Ticket.",
-    "INFO": "I've been online for {{UPTIME}}, helping {{GUILDS}} servers and {{USERS}} users with {{CMDS}} commands.",
-    "FOOTER": "{{CLIENT}} have received {{MESSAGES}} messages and successfully executed {{COMMANDS}} commands in total my prefix for this server is: **(**` {{PREFIX}} `**)**.",
 	"GUILD_ONLY": "This command is only available on a server!",
+	"OWNER_ONLY": "This command is only available for developers!",
 	"PREFIX_LENGTH": "Unfortunately the prefix cannot be longer than 3 characters.",
-	"PREFIX": "The `prefix` has been successfully updated. ` {{OLD}} ` ➔ ` {{NEW}} `"
+	"PREFIX": "The `prefix` has been successfully updated. ` {{OLD}} ` ➔ ` {{NEW}} `",
+	"BOT_PREFIX": "Commands in this server starts with: ` {{PREFIX}} `",
+	"NEWS": "**__Lastest news:__ {{DATE}}** [`({{DATE2}})`](https://vante.dev/)\n{{NEWS}}",
+	"BUG": "Found a bug or think a command isn't working right? Report it using </bug:{{COMMAND}}> to notify my developer.",
+	"FEEDBACK": "Share your thoughts about the bot using the </feedback:{{COMMAND}}> command to help us improve.",
+	"SUPPORT": "Join our [support server]({{LINK}}) if you need assistance, want to stay informed about updates and known issues, or if you'd like to contribute to the development of the bot. We welcome your presence and participation in our community!",
+	"FOOTER": "Ah! And Thank You for allowing me to be a part of your amazing server <3"
 }

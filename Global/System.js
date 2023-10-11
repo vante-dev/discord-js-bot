@@ -1,24 +1,27 @@
+
 module.exports = {
     serverID: '',
+    serverLink: '',
     ownerID: [],
-    mongoDB: '',
+    debug: false,
 
     Client: {
         Token: '',
-        Language: '',
         Prefix: [],
 
         Presence: {
-            Status: "", // The bot's status [online, idle, dnd, invisible]
-            Type: "", // Status type for the bot [PLAYING | LISTENING | WATCHING | COMPETING]
-            Message: [], // Your bot status messages
-        }
+            Status: '', // idle, online, dnd or offline
+            Type: '', // PLAYING, STREAMING, LISTENING, COMPETING or WATCHING
+            Message: [] // Messages that the bot displays in its presence status. 
+            // {servers} = example output: 13k servers
+            // {members} = example output: 150m members
+        },
+
+        Monitor: [
+            { ID: 'System',    Webhook: '', },
+            { ID: 'Servers',   Webhook: '', },
+            { ID: 'Feedbacks', Webhook: '', },
+            { ID: 'Bugs',      Webhook: '', },
+        ],
     },
-    
-    WebHooks: [ 
-        { ID: 'System',  URL: '' },
-        { ID: 'Server',  URL: '' },
-        { ID: 'Debug',   URL: '' },
-        { ID: 'Support', URL: '' },
-    ],
-}
+};

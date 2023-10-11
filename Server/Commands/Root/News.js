@@ -1,8 +1,9 @@
+
 module.exports = {
-    Name: 'portal',
+    Name: 'setnews',
     Aliases: [],
-    Description: 'Force the bot to create a invite to the server',
-    Usage: 'portal <ServerID>',
+    Description: 'This is for the developers.',
+    Usage: 'setnews <text>',
     Category: 'Root',
     Cooldown: 0,
     
@@ -37,30 +38,16 @@ module.exports = {
      * @async
      */
     messageRun: async (client, message, args, settings) => {
-        const guildId = args[0];
+        let news = args.join(" ").split("").join("");
+        if (!news) return message.channel.send("Please enter news.");
 
-        if (!guildId) {
-            return message.channel.send(`You have to give me some serverID to so i can create a portal to`)
+        const vante = await client.database.updateOne('Cluster', 'Vante', { clientID: client.user.id }, { $set: {
+            news: news,
+            time: Date.now(),
         }
-
-        const guild = client.guilds.cache.get(args[0]);
-
-        if (!guild) {
-            return message.channel.send(`Sorry, ${message.author}. server not found`)
-        }
-
-        try {
-            await guild.channels.cache
-            .filter(channel => channel.type !== "category").first()
-            .createInvite(
-                false,
-                84600,
-                0,
-                false
-            ).then(invite => message.channel.send(`discord.gg/${invite.code}`));
-        } catch (err) {
-            message.channel.send(`"The following error has occurred: **${err}**.`)
-        }
+        }, { upsert: true, new: true });
+        
+        return message.channel.send("News setted.");
     },
 
     /**

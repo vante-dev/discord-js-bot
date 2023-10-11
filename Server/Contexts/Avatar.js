@@ -2,19 +2,25 @@ const { ApplicationCommandType: { Message, User, ChatInput } } = require("discor
 
 module.exports = {
     Name: "Avatar",
-    Description: "displays avatar information about the user",
+    Description: "Displays avatar information about the user",
     Type: User,
-    Cooldown: 10,
+    Cooldown: 20,
     Enabled: true,
     Ephemeral: true,
+
+    Permissions: {
+        Client: [],
+        User: [],
+        Role: []
+    },
 
     async run(client, interaction) {
         const user = interaction.guild.members.cache.get(interaction.targetId).user;
 
         const embed = client.embed(interaction, { 
-            title: interaction.guild.translate("context/avatar:TITLE", { USER: user.username}), 
             image: user.displayAvatarURL({ extension: "png", size: 2048 }),
-            footer: { text: interaction.guild.translate("context/avatar:FOOTER", { USER: interaction.user.username }) },
+            author: { name: '@' + user.username, icon: user.displayAvatarURL({ extension: "png", size: 2048 }) },
+            footer: { text: ' ' }
         })
 
         await interaction.followUp({
