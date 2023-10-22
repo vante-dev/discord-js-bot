@@ -1,5 +1,5 @@
 <h1 align="center">
-   Discord.js v14 Handlers
+   Discord.js (v14) Bot Example
 </h1>
 <h4 align="center">Commands, Events, Permissions and Cooldown Handlers for Discord.js v14 bot ~ Made by Vante</h4>
 
@@ -53,11 +53,13 @@
 - Webhook logs
 - Shard support
 - Custom database support
+- Giveaways with buttons
 
 ## Directory Structure
+- Database (Dont Touch it its your local database)
 - Assets (Fonts for canvas & images)
-- Global (Base, Database, Helpers, Languages, Structures, Utils)
-- Server (Commands, Contexts, Events, index.js, shard.js)
+- Global (Base, Handlers, Helpers, Languages, Settings, Structures)
+- Server (Commands, Contexts, Events, index.js, manager.js (sharding manager))
 
 <br>
 
@@ -65,23 +67,7 @@
 
 ### Configuration
 
-The configuration file named **./Global/System.js** and the configuration object allows you to customize various aspects of your Discord bot, including:
-
-- **Server Settings**: Configure the primary server's unique ID and an optional server link.
-
-- **Owner ID**: Specify Discord User IDs for the bot's owners or administrators.
-
-- **Debug Mode**: Toggle debugging mode on or off.
-
-- **Client Settings**:
-  - **Token**: Store your bot's authentication token securely.
-  - **Command Prefixes**: Define command prefixes.
-  - **Presence Settings**: Customize the bot's status, type, and dynamic presence messages.
-
-- **Monitoring**:
-  - Define monitoring categories with unique IDs and webhooks.
-
-These settings allow you to tailor your bot's behavior and functionality to your needs.
+The configuration file named **./Global/Settings/Emoji.json** & **./Global/Settings/Config.js** and the configuration object allows you to customize various aspects of your Discord bot.
 
 ### Installation
 ```sh
@@ -93,12 +79,12 @@ $ npm install
 $ npm run dev
 ```
 
-### Starts the bot
+### Starts the bot in normal mode
 ```sh
 $ npm run start
 ```
 
-### Starts the bot with shards
+### Starts the bot with shards 
 ```sh
 $ npm run sharded
 ```

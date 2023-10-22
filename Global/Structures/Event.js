@@ -1,4 +1,4 @@
-const { Events, ShardEvents } = require("discord.js");
+const { Events, ShardEvents } = require('discord.js');
 
 module.exports = async () => {
 

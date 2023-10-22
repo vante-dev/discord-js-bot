@@ -1,7 +1,8 @@
-const { Client, Partials, GatewayIntentBits, Collection, ApplicationCommandType } = require("discord.js");
-const { validateCommand, validateContext } = require("../Helpers/Validator");
-const FileManager = require("../Helpers/File");
-const BotDatabase = require("./Database");
+const { Client, Partials, GatewayIntentBits, Collection, ApplicationCommandType, ButtonStyle} = require('discord.js');
+const { Validator: { Command, Context }, FileManager } = require('../Handlers');
+const { databaseManager } = require('../Handlers/Variables');
+const { GiveawaysManager } = require("vante-giveaways");
+
 
 class VanteClient extends Client {
     constructor(options) {
@@ -16,21 +17,28 @@ class VanteClient extends Client {
         this.slashCommands = new Collection();
         this.contextMenus = new Collection();
         this.cooldowns = new Collection();
+        this.premium = new Collection();
 
-        this.languages = require(`${__dirname}/../Languages/language-meta.json`);
-        this.system = (global.system = require(`../System`));
-        this.logger = (global.logger = require("../Helpers/Logger"));
-        this.emoji = (global.emoji = require("../Database/Emoji.json"))
+        this.languages = require(`../Languages/language-meta.json`);
+        this.system = (global.system = require(`../Settings/Config`));
+        this.logger = (global.logger = require('../Handlers/Logger'));
+        this.emoji = (global.emoji = require('../Settings/Emoji.json'));
+        this.giveawaysManager = new GiveawaysManager(this, { 
+            storage: './Database/Giveaways.json',
+            default: {
+                botsCanWin: true,
+                embedColor: '#0a0000',
+                buttonEmoji: this.emoji.tada,
+                buttonStyle: ButtonStyle.Secondary,
+            }
+          }); 
+        this.database = databaseManager;
 
-        require("../Helpers");
+        require('../Helpers');
     };
 
-    /**
-    * Spawns and initializes the application.
-    */
     async spawn() {
         this.logger.success(`Spawns shards and initializes the application.`);
-        this.database = new BotDatabase({ Folder: 'Global/Database', UpdateCheck: false, Client: this });
         let success = 0, error = 0;
 
         const Events = new FileManager({
@@ -69,10 +77,9 @@ class VanteClient extends Client {
         for (const file of Commands.filePaths) {
             try {
                 const data = require(file);
-                if (typeof data !== "object") continue;
-                if (data.onLoad != undefined && typeof data.onLoad == "function") data.onLoad(this);
+                if (typeof data !== 'object') continue;
 
-                const valid = validateCommand(data);
+                const valid = Command(data);
 
                 if (valid) {
                     if (data.Command.Prefix) {
@@ -103,9 +110,9 @@ class VanteClient extends Client {
         for (const file of Contexts.filePaths) {
             try {
                 const data = require(file);
-                if (typeof data !== "object") continue;
+                if (typeof data !== 'object') continue;
 
-                const valid = validateContext(data);
+                const valid = Context(data);
                 if (valid) {
                     if (data.Enabled) {
                         if (this.contextMenus.has(data.Name)) throw new Error(`Context already exists with that name`);
@@ -121,51 +128,42 @@ class VanteClient extends Client {
         this.logger.success(`Loaded ${this.commands.size + this.slashCommands.size + this.contextMenus.size} commands (Prefix: ${this.commands.size} Slash: ${this.slashCommands.size} Context: ${this.contextMenus.size})`);
         this.logger.success(`Loaded ${success + error} events. Success (${success}) Failed (${error})`);
 
-        if (this.slashCommands.size > 100) this.logger.error("A maximum of 100 slash commands can be enabled");
+        if (this.slashCommands.size > 100) this.logger.error('A maximum of 100 slash commands can be enabled');
 
-        this.login(this.Vante.Token).then(app => {
+        return super.login(this.Vante.Token).then(app => {
             this.on('ready', async (client) => {
 
-                client.translations = await require('../Helpers/Language')();
+                client.giveawaysManager.on('giveawayJoined', (giveaway, member, interaction) => {
+                    interaction.reply({ content: interaction.translate("giveaway:GIVEAWAY_JOINED", { EMOJI: this.emoji.tada, USER: member.user.username }), ephemeral: true })
+                });
+                  
+                client.giveawaysManager.on('giveawayLeaved', (giveaway, member, interaction) => {
+                    interaction.reply({ content: interaction.translate("giveaway:GIVEAWAY_LEAVED", { EMOJI: this.emoji.tada, USER: member.user.username }), ephemeral: true })
+                });
+
+                client.translations = await require('../Handlers/Language')();
                 
                 if (this.Vante.Commands || this.Vante.Contexts) {
                     const interactionToRegister = [];
-
-                    const { run } = require('../Helpers/Languages');
-
-                    const ConvertSlashCommands = Promise.all(this.slashCommands.map(async (cmd) => {
-                        const [name_localizations, description_localizations] = await Promise.all([
-                            run(client, cmd.Name),
-                            run(client, cmd.Description, true)
-                        ]);
-
-                        return {
+                
+                    this.slashCommands.forEach((cmd) => {
+                        interactionToRegister.push({
                             name: cmd.Name,
                             description: cmd.Description,
-                            description_localizations: description_localizations ?? {},
                             type: ApplicationCommandType.ChatInput,
                             options: cmd.Command.Options,
-                        };
-                    }));
-                    
-                    const ConvertContextMenus = Promise.all(this.contextMenus.map(async (cmd) => {
-                        const name_localizations = await run(client, cmd.Name, true);
-                    
-                        return {
+                        });
+                    });
+                
+                    this.contextMenus.forEach((cmd) => {
+                        interactionToRegister.push({
                             name: cmd.Name,
-                            name_localizations: name_localizations ?? {},
                             type: cmd.Type,
-                        };
-                    }));
-                    
-                    const [slashCommandsResult, contextMenusResult] = await Promise.all([ConvertSlashCommands, ConvertContextMenus]);
-
-                    interactionToRegister.push(...slashCommandsResult);
-                    interactionToRegister.push(...contextMenusResult);
-
-
+                        });
+                    });
+                
                     await this.application.commands.set(interactionToRegister);
-                };
+                }
 
                 this.logger.loaded(this);
                 this.logger.line();

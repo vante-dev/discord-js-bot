@@ -1,12 +1,7 @@
 module.exports = {
-    Prototypes: require("../Structures/Prototpyes"),
-    File: require("./File"),
-    Fonts: require("./Fonts"),
-    Language: require("./Language"),
-    Logger: require("./Logger"),
-    Validator: require("./Validator"),
-    Time: require("../Utils/Time"),
-    Link: require("../Utils/Link"),
-    Presence: require("./Presence"),
-    Format: require("../Utils/Format"),
-};
+    Prototpyes: require('../Structures/Prototpyes'),
+    AntiCrash: require('../Handlers/AntiCrash')(),
+    Link: require('./Link'),
+    Format: require('./Format'),
+    Time: require('./time'),
+}

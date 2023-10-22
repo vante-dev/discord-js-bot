@@ -15,8 +15,8 @@
 	"PREFIX": "`Önek` başarıyla güncellendi. `{{OLD}}` ➔ `{{NEW}}`",
 	"BOT_PREFIX": "Bu sunucudaki komutlar şu öncekle başlar: `{{PREFIX}}`",
 	"NEWS": "**__Son haberler: {{DATE}}__** [`({{DATE2}})`](https://vante.dev/)\n{{NEWS}}",
-	"BUG": "Bir hata buldunuz ya da bir komutun düzgün çalışmadığını düşünüyorsunuz? Geliştiriciye bildirmek için `</bug:{{COMMAND}}>` kullanın.",
-	"FEEDBACK": "Bot hakkındaki düşüncelerinizi paylaşmak için `</feedback:{{COMMAND}}>` komutunu kullanarak bize yardımcı olun.",
+	"BUG": "Bir hata buldunuz ya da bir komutun düzgün çalışmadığını düşünüyorsunuz? Geliştiriciye bildirmek için </bug:{{COMMAND}}> kullanın.",
+	"FEEDBACK": "Bot hakkındaki düşüncelerinizi paylaşmak için </feedback:{{COMMAND}}> komutunu kullanarak bize yardımcı olun.",
 	"SUPPORT": "Destek sunucumuza katılın [destek sunucusu]({{LINK}}), yardıma ihtiyacınız varsa, güncellemeler ve bilinen sorunlar hakkında bilgi almak istiyorsanız, veya botun geliştirilmesine katkıda bulunmak istiyorsanız. Topluluğumuzda bulunmanızı ve katkıda bulunmanızı bekliyoruz!",
 	"FOOTER": "Ah! Ve muhteşem sunucunuzun bir parçası olmama izin verdiğiniz için teşekkür ederim <3"
 }

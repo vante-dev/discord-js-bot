@@ -2,14 +2,14 @@
     "name": "discord-js-bot",
     "description": "Command, slash command, context menu & event handler - Discord Bot Template (v14)",
     "homepage": "https://vante.dev/",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "author": "Kaan 'Vante' Karahanlı",
-    "main": "./Server/index.js",
+    "main": "./Source/index.js",
     "license": "GPL-3.0",
     "scripts": {
         "start": "node .",
-        "sharded": "node ./Server/shard.js",
-        "dev": "nodemon ./Server/index.js",
+        "sharded": "node ./Source/manager.js",
+        "dev": "nodemon ./Source/index.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
@@ -29,13 +29,13 @@
         "axios": "^1.5.1",
         "chalk": "^4.1.2",
         "chokidar": "^3.5.3",
-        "dayjs": "^1.11.10",
         "discord.js": "^14.13.0",
-        "i18next": "^23.5.1",
+        "enhanced-ms": "^2.3.0",
+        "i18next": "^23.6.0",
         "i18next-node-fs-backend": "^2.1.3",
         "moment": "^2.29.4",
-        "node-google-translate-skidz": "^1.1.2",
         "sourcebin_js": "^0.0.3-ignore",
-        "vantedb": "^2.1.0"
+        "vante-giveaways": "^3.5.0",
+        "vantedb": "^3.0.3"
     }
 }
