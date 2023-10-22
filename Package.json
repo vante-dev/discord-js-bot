@@ -36,6 +36,6 @@
         "moment": "^2.29.4",
         "sourcebin_js": "^0.0.3-ignore",
         "vante-giveaways": "^3.5.0",
-        "vantedb": "^3.0.3"
+        "vantedb": "^3.0.5"
     }
 }
