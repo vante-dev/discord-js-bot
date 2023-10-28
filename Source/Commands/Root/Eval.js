@@ -1,27 +1,26 @@
 const { ApplicationCommandOptionType: { String }, EmbedBuilder } = require('discord.js'); 
-const { Link: { postToBin }, Format: { truncate, clean} } = require('../../../Global/Helpers');
+const { Link: { postToBin }, Format: { truncate, clean } } = require('../../../Global/Helpers');
 const { inspect } = require('util');
 
 module.exports = {
     Name: 'eval',
     Aliases: [],
-    Description: 'Eval a JS code.',
+    Description: 'Eval a JS code',
     Usage: 'eval client.users.cache.get(`797096076330795018`)',
     Category: 'Root',
-    Cooldown: 10,
-
+    Cooldown: 0,
+    
     Permissions: {
-        User: [],
-        Bot: [],
-        Role: []
+        User : [],
+        Bot  : [],
+        Role : []
     },
 
     Command: {
-        Prefix: true,
-        Slash: true,
-        Ephemeral: true,
-        
-        Options: [
+        Prefix    : true,
+        Slash     : true,
+        Ephemeral : true,
+        Options   : [
             {
                 name: 'code',
                 description: 'code to evaluate',

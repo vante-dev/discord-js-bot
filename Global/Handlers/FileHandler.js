@@ -20,11 +20,11 @@ class FileManager {
     }
 
     readStructureFromFile() {
-        const structureFilePath = join(process.cwd(), 'Global/Structures', `${this.type}.js`);
+        const structureFilePath = join(process.cwd(), 'Global/Base/Examples', `${this.type}.js`);
         if (fs.existsSync(structureFilePath)) {
             return fs.readFileSync(structureFilePath, 'utf-8');
         }
-        return`/**\n* Missing '@${this.type}' structure in 'Global/Structures/${this.type}.js'. \n* Please create it to enable automatic generation.\n*\n* For assistance or bug reports, join our Discord server:\n* @see {@link https://discord.gg/luppux}\n*\n* @namespace\n* @name Kaan 'Vante' Karahanlı\n*/
+        return`/**\n* Missing '@${this.type}' structure in 'Global/Base/Examples/${this.type}.js'. \n* Please create it to enable automatic generation.\n*\n* For assistance or bug reports, join our Discord server:\n* @see {@link https://discord.gg/luppux}\n*\n* @namespace\n* @name Kaan 'Vante' Karahanlı\n*/
        `;
     }
 

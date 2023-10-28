@@ -1,7 +1,9 @@
 module.exports = {
-    Prototpyes: require('../Structures/Prototpyes'),
-    AntiCrash: require('../Handlers/AntiCrash')(),
-    Link: require('./Link'),
+    Prototpyes: require('./Extenders'),
     Format: require('./Format'),
-    Time: require('./time'),
+    Link: require('./Link'),
+    Logger: require('./Logger'),
+    Presence: require('./Presence'),
+    Time: require('./Time'),
+    Validator: require('./Validator'),
 }

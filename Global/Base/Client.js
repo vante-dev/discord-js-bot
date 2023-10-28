@@ -1,40 +1,57 @@
-const { Client, Partials, GatewayIntentBits, Collection, ApplicationCommandType, ButtonStyle} = require('discord.js');
-const { Validator: { Command, Context }, FileManager } = require('../Handlers');
-const { databaseManager } = require('../Handlers/Variables');
+const { Client, Partials, GatewayIntentBits, Collection, ApplicationCommandType, ButtonStyle, Options } = require('discord.js');
+const { databaseManager, FileManager} = require("../Handlers"), { Logger, Validator } = require("../Helpers");
 const { GiveawaysManager } = require("vante-giveaways");
 
-
 class VanteClient extends Client {
-    constructor(options) {
+    constructor(Settings) {
         super({
+            sweepers: {
+                ...Options.DefaultSweeperSettings,
+                messages: {
+                    interval: 3600,
+                    lifetime: 1800,
+                },
+
+                users: {
+                    interval: 3600,
+                    filter: () => user => user?.bot && user.id !== user?.client.user?.id, 
+                },
+            },
+
+            allowedMentions: {
+				parse: ['users', 'roles'],
+				repliedUser: false
+			},
+
             partials: Object.keys(Partials),
             intents: Object.keys(GatewayIntentBits),
+            restRequestTimeout: 30000,
         });
 
-        this.Vante = options;
+        this.Vante = Settings,
         this.commands = new Collection();
         this.aliases = new Collection();
         this.slashCommands = new Collection();
         this.contextMenus = new Collection();
         this.cooldowns = new Collection();
-        this.premium = new Collection();
 
-        this.languages = require(`../Languages/language-meta.json`);
-        this.system = (global.system = require(`../Settings/Config`));
-        this.logger = (global.logger = require('../Handlers/Logger'));
-        this.emoji = (global.emoji = require('../Settings/Emoji.json'));
+        this.database = databaseManager;
+        this.languages = require("../Languages/language-meta.json");
+
+        this.system = (global.system = require("../Settings/Config"));
+        this.emoji = (global.emoji = require("../Settings/Emoji.json"));
+        this.logger = (global.logger = Logger);
+        this.links = (global.links = this.system.Bot.Links);
+             
         this.giveawaysManager = new GiveawaysManager(this, { 
-            storage: './Database/Giveaways.json',
+            storage: './Global/Database/Giveaways.json',
             default: {
                 botsCanWin: true,
                 embedColor: '#0a0000',
                 buttonEmoji: this.emoji.tada,
                 buttonStyle: ButtonStyle.Secondary,
-            }
-          }); 
-        this.database = databaseManager;
-
-        require('../Helpers');
+            },
+        }); 
     };
 
     async spawn() {
@@ -63,23 +80,30 @@ class VanteClient extends Client {
         for (const file of Events.filePaths) {
             try {
                 const event = require(file);
-                if (!event.config.Development) {
-                  this.on(event.config.Event, event.bind(null, this));
-                  delete require.cache[require.resolve(file)];
-                  success += 1;
-                }
+                if (event && event.System) {
+                    if (typeof event.execute === 'function') {
+                        this.on(event.Name, event.execute.bind(null, this));
+                        success += 1;
+                    } else {
+                        this.logger.error(`Event file (${file}) is missing the 'execute' function.`);
+                        error += 1;
+                    }
+        
+                    delete require.cache[require.resolve(file)];
+                } else {}
             } catch (ex) {
                 error += 1;
-                this.logger.error(`loadEvent ( ${file} ) - ${ex}`);
-            };
-        };
+                this.logger.error(`loadEvent (${file}) - ${ex}`);
+            }
+        }
+        
 
         for (const file of Commands.filePaths) {
             try {
                 const data = require(file);
                 if (typeof data !== 'object') continue;
 
-                const valid = Command(data);
+                const valid = Validator.Command(data, { Logger: this.logger });
 
                 if (valid) {
                     if (data.Command.Prefix) {
@@ -112,7 +136,8 @@ class VanteClient extends Client {
                 const data = require(file);
                 if (typeof data !== 'object') continue;
 
-                const valid = Context(data);
+                const valid = Validator.Context(data, { Logger: this.logger });
+                
                 if (valid) {
                     if (data.Enabled) {
                         if (this.contextMenus.has(data.Name)) throw new Error(`Context already exists with that name`);

@@ -1,21 +1,16 @@
 module.exports = {
     serverID: '',
-    serverLink: 'https://discord.gg/luppux',
-    ownerID: [''],
-    premium: false,
+    ownerID: [],
     
     Bot: {
         Token: '',
-        BotURL: '',
         Prefix: [],
-        Language: 'en-US',
+        Language: '',
         
         Presence: {
-            Status: 'idle', 
-            Type: 'PLAYING', 
-            Message: ['{servers} ⊹ {members}', 'Developed by Vante']
-            // {servers} = example output: 13k servers
-            // {members} = example output: 150m members
+            Status: '', 
+            Type: '', 
+            Message: []
         },
 
         Monitor: [
@@ -24,6 +19,12 @@ module.exports = {
             { ID: 'Feedbacks', Webhook: '', },
             { ID: 'Bugs',      Webhook: '', },
         ],
-    }
 
-}
+        Links: {
+            SupportServer: 'https://discord.gg/luppux',
+            Dashboard: 'https://vante.dev/',
+            Invite: 'https://discord.com/api/oauth2/authorize?client_id=0&permissions=8&scope=bot%20applications.commands',
+            Vote: 'https://vante.dev/vote'
+        }
+    }
+};

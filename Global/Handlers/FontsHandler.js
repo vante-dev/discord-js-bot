@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const GlobalFonts = require('@napi-rs/canvas').GlobalFonts;
-const { error } = require('./Logger')
+const { error } = require('../Helpers/Logger')
 
 function registerFontsFromDirectory(fontsDirectory) {
   fs.readdir(fontsDirectory, (err, files) => {
@@ -23,5 +23,5 @@ function registerFontsFromDirectory(fontsDirectory) {
 }
 
 // Usage example
-const fontsDirectory = path.join(__dirname, '../../Assets/Fonts');
+const fontsDirectory = path.join(__dirname, '../Assets/Fonts');
 registerFontsFromDirectory(fontsDirectory);

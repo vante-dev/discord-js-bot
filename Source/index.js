@@ -6,6 +6,7 @@
         Token: Bot.Token,
         Prefix: Bot.Prefix,
         Language: Bot.Language,
+        Webhooks: Bot.Monitor,
         
         Debugger: false,
         Commands: true,

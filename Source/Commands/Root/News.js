@@ -1,4 +1,5 @@
-const { Guild } = require("../../../Global/Settings/Models")
+const { Guild } = require("../../../Global/Settings/Models");
+
 module.exports = {
     Name: 'setnews',
     Aliases: [],
@@ -28,8 +29,8 @@ module.exports = {
         console.log(news)
         await Guild.updateMany({},
             { $set: { 
-                "Client.News": news,
-                "Client.Time": Date.now(),
+                "News": news,
+                "NewsTime": Date.now(),
             } }
           );
         

@@ -1,4 +1,4 @@
-const {  PermissionsBitField: { Flags }, EmbedBuilder } = require('discord.js'); 
+const {  PermissionsBitField: { Flags }, ApplicationCommandOptionType, EmbedBuilder } = require('discord.js'); 
 
 module.exports = {
     Name: 'language',
@@ -9,19 +9,13 @@ module.exports = {
     Cooldown: 30,
     
     Permissions: {
-        User: [Flags.Administrator],
-        Bot: [],
-        Role: []
+        User : [Flags.Administrator],
     },
 
     Command: {
         Prefix: true,
-        Slash: false,
-        Ephemeral: false,
-        
-        Options: [],
     },
-    
+
     messageRun: async (client, message, args, settings) => {
         const language = client.languages.find((lang) => lang.name === args[0] || lang.aliases.includes(args[0]));
 
@@ -41,4 +35,6 @@ module.exports = {
 			message.channel.error('misc:ERROR_MESSAGE', { err: err.message })
 		}
     },
+
+    interactionRun: async (client, interaction, settings) => {},
 };

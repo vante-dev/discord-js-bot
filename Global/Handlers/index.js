@@ -1,9 +1,8 @@
 module.exports = {
-    FileManager: require('./FileHandler.js'),
-    FontsManager: require('./FontsHandler.js'),
-    Language: require('./Language.js'),
-    Logger: require('./Logger.js'),
-    Presence: require('./Presence.js'),
-    Validator: require('./Validator.js'),
-    Variables: require('./Variables.js'),
+    AntiCrash: require("./AntiCrash"),
+    Command: require("./Commands"),
+    FileManager: require("./FileHandler"),
+    FontsManager: require("./FontsHandler"),
+    databaseManager: require("./Variables"),
+    Language: require("./Language"),
 }

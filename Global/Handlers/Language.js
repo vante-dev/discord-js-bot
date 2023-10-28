@@ -1,5 +1,5 @@
 const i18next = require('i18next'), Backend = require('i18next-node-fs-backend'), path = require('path'), fs = require('fs').promises;
-const { success } = require('./Logger');
+const { success } = require('../Helpers/Logger');
 
 async function walkDirectory(dir, namespaces = [], folderName = '') {
 	const files = await fs.readdir(dir);

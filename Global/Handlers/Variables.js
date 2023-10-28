@@ -1,5 +1,5 @@
 const { Guild } = require('../Settings/Models/');
-const logger = require('./Logger');
+const logger = require('../Helpers/Logger');
 
 const databaseManager = {
     find: async function (databaseType, query) {
@@ -7,16 +7,15 @@ const databaseManager = {
             switch (databaseType) {
                 case 'Guild':
                     if (query) {
-                        let guildResponse = await Guild.findOne(query);
-                        if (!guildResponse) {
-                            guildResponse = await Guild.create(query);
+                        let response = await Guild.findOne(query);
+                        if (!response) {
+                            response = await Guild.create(query);
                         }
 
-                        return guildResponse;
+                        return response;
                     } else {
                         return await Guild.find({});
                     };
-
                 default:
                     throw new Error(`Invalid database type: ${databaseType}`);
             }
@@ -34,10 +33,7 @@ const databaseManager = {
 
             switch (databaseType) {
                 case 'Guild':
-                    const settings = await Guild.updateOne(query, update, { upsert: true });
-                    return settings;
-
-
+                    return await Guild.updateOne(query, update, { upsert: true });
                 default:
                     throw new Error(`Invalid database type: ${databaseType}`);
             }
@@ -55,9 +51,7 @@ const databaseManager = {
 
             switch (databaseType) {
                 case 'Guild':
-                    const deletedGuild = await Guild.deleteOne(query);
-                    return deletedGuild;
-
+                    return await Guild.deleteOne(query);
                 default:
                     throw new Error(`Invalid database type: ${databaseType}`);
             }
@@ -68,4 +62,4 @@ const databaseManager = {
     },
 };
 
-module.exports = { databaseManager };
+module.exports = databaseManager;

@@ -21,25 +21,26 @@ const reroll = require("./Subcommand/Reroll");
 const list = require("./Subcommand/List");
 const edit = require("./Subcommand/Edit");
 
+
 module.exports = {
     Name: 'giveaway',
     Aliases: [],
     Description: 'giveaway commands',
     Usage: '',
     Category: 'Giveaway',
-    Cooldown: 0,
-
+    Cooldown: 10,
+    
     Permissions: {
-        User: [Flags.Administrator],
-        Bot: [],
-        Role: []
+        User : [Flags.Administrator],
+        Bot  : [],
+        Role : []
     },
 
     Command: {
-        Prefix: false,
-        Slash: true,
-        Ephemeral: true,
-        Options: [
+        Prefix    : false,
+        Slash     : true,
+        Ephemeral : true,
+        Options   : [
             {
                 name: "start",
                 description: "start a giveaway",
@@ -145,8 +146,6 @@ module.exports = {
 
         ],
     },
-
-    messageRun: async (client, message, args, settings) => { },
 
     interactionRun: async (client, interaction, settings) => {
         const sub = interaction.options.getSubcommand();

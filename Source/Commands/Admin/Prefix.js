@@ -1,5 +1,4 @@
-const {  PermissionsBitField: { Flags }, EmbedBuilder } = require('discord.js'); 
-
+const {  PermissionsBitField: { Flags }, ApplicationCommandOptionType, EmbedBuilder  } = require('discord.js'); 
 
 module.exports = {
     Name: 'prefix',
@@ -10,17 +9,11 @@ module.exports = {
     Cooldown: 30,
     
     Permissions: {
-        User: [Flags.Administrator],
-        Bot: [],
-        Role: []
+        User : [Flags.Administrator],
     },
 
     Command: {
         Prefix: true,
-        Slash: false,
-        Ephemeral: false,
-        
-        Options: [],
     },
 
     messageRun: async (client, message, args, settings) => {
@@ -41,4 +34,6 @@ module.exports = {
 			message.channel.error('misc:ERROR_MESSAGE', { err: err.message })
 		}
     },
+
+    interactionRun: async (client, interaction, settings) => {},
 };

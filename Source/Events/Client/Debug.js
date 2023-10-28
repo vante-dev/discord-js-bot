@@ -1,9 +1,10 @@
-const { Events, ShardEvents } = require('discord.js');
+const { Events } = require("discord.js");
 
-module.exports = async (client, info) => {
-    if (client.Vante.Debugger) client.logger.debug(info);
-};
-  
-module.exports.config = {
-    Event: Events.Debug, Development: true,
+module.exports = {
+    Name: Events.Debug,
+    System: true,
+
+    execute: async (client, info) => { 
+        if (client.Vante.Debugger) client.logger.debug(info);
+    }
 };
